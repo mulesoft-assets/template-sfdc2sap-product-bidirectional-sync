@@ -29,7 +29,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
         <sfdc:create config-ref="Test_Salesforce" type="Product2" doc:name="Create Product in Salesforce">
             <sfdc:objects ref="#[payload]"/>
         </sfdc:create>
-        <logger level="INFO" message="Create Products in Salesforce result: #[payload]" doc:name="Logger"/>
+        <logger level="INFO" message="Create Test Products in Salesforce result: #[payload]" doc:name="Logger"/>
     </flow>
     <flow name="createProductsInSapFlow" doc:name="createProductsInSapFlow">
         <collection-splitter doc:name="Collection Splitter"/>
@@ -40,7 +40,7 @@ payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
             <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="idoc" functionName="MATMAS01" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Send IDoc to SAP"/>
         </processor-chain>
         <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
-        <logger level="INFO" message="Create Products in Sap result: #[payload]" doc:name="Logger"/>
+        <logger level="INFO" message="Create Test Products in SAP result: #[payload]" doc:name="Logger"/>
     </flow>
     <flow name="queryProductFromSalesforceFlow" doc:name="queryProductFromSalesforceFlow">
         <sfdc:query-single config-ref="Test_Salesforce" query="SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'" doc:name="Salesforce"/>
@@ -49,7 +49,6 @@ payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
     <flow name="queryProductFromSapFlow" doc:name="queryProductFromSapFlow">
         <enricher source="#[payload.isEmpty() ? NullPayload.getInstance() : payload[0]]" target="#[payload]" doc:name="Store result in record var 'materialInSap'">
             <processor-chain doc:name="Processor Chain">
-                <logger message="#[payload['ProductCode']]" level="INFO" category="KUCAPACA" doc:name="Logger"/>
                 <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Material from SAP">
                     <sap:definition><![CDATA[<jco>
   	<import>
@@ -58,9 +57,7 @@ payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
 </jco>
 ]]></sap:definition>
                 </sap:outbound-endpoint>
-                <logger message="#[payload]" level="INFO" category="KAKAO" doc:name="Logger"/>
                 <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
-                <logger message="#[payload]" level="INFO" category="DODO" doc:name="Logger"/>
             </processor-chain>
         </enricher>
         <logger level="INFO" message="Retrieve Products from SAP result: #[payload]" doc:name="Logger"/>

@@ -37,11 +37,9 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 </jco>
 ]]></sap:definition>
                         </sap:outbound-endpoint>
-                        <logger message="#[payload]" level="INFO" category="ZOCHAR" doc:name="Logger"/>
                         <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
 					</processor-chain>
 				</enricher>
-                <logger message="SAP: #[recordVars['materialInSap']]; SFDC: #[payload]" level="INFO" category="SAMOPAL" doc:name="Logger"/>
 			</batch:step>
 			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (payload['LastModifiedDate'] &gt; recordVars['materialInSap']['LastModifiedDate'] &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
                 <expression-component doc:name="Prepare Material for Upsert"><![CDATA[if (recordVars['materialInSap'] is NullPayload) {
@@ -75,7 +73,6 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 						query="SELECT Id, LastModifiedDate, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'"
 						doc:name="Query Product from Salesforce" />
 				</enricher>
-                <logger message="#[payload] VS #[recordVars['productInSalesforce']] XXX #[recordVars['productInSalesforce'] is NullPayload || payload['LastModifiedDate'] &gt; recordVars['productInSalesforce']['LastModifiedDate'] &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))]" level="INFO" category="SLNKO" doc:name="Logger"/>
 			</batch:step>
 			<batch:step name="foreachMaterialInSapUpsertProductInSalesforceStep" accept-expression="recordVars['productInSalesforce'] is NullPayload || payload['LastModifiedDate'] &gt; recordVars['productInSalesforce']['LastModifiedDate'] &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))">
                 <expression-component doc:name="Prepare Product for Upsert"><![CDATA[if (!(recordVars['productInSalesforce'] is NullPayload)) {
@@ -83,7 +80,6 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 }
 
 payload.keySet().retainAll(['Id', 'ProductCode', 'Name']);]]></expression-component>
-                <logger message="#[payload]" level="INFO" category="SAFKO" doc:name="Logger"/>
 				<batch:commit doc:name="Batch Commit" size="200">
 					<sfdc:upsert config-ref="Salesforce"
 						externalIdFieldName="Id" type="Product2" doc:name="Salesforce">

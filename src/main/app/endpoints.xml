@@ -46,7 +46,6 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
                 <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
             </processor-chain>
         </poll>
-        <logger message="#[payload]" level="INFO" category="TEST1" doc:name="Logger"/>
         <batch:execute name="fromSapToSalesforceBatch" doc:name="Trigger fromSapToSalesforceBatch"/>
         <exception-strategy ref="defaultChoiceExceptionStrategy" doc:name="Catch Exception and call defaultChoiceExceptionStrategy"/>
     </flow>
