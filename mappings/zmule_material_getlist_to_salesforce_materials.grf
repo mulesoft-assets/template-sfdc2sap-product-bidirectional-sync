@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="martin" created="Fri Jul 04 10:14:33 CEST 2014" description="ZMULE_MATERIAL_GETLIST to Salesforce Materials" guiVersion="3.4.3.P" id="1404462880880" licenseCode="Unlicensed" licenseType="Unknown" modified="Fri Jul 04 10:14:33 CEST 2014" modifiedBy="martin" name="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="232" __referenceCounter="0" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="728400e5-8d8e-4a9c-8f04-e82d875e0d23" _parent_id="__parent_id" _type="Input" id="d9e3acc5-f456-4538-b2d5-e5dbefb80586">
+<Record fieldDelimiter="," name="exception" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="232" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception/@key" containerType="SINGLE" label="key" name="key" type="string"/>
+<Field __index="233" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception/@messageClass" containerType="SINGLE" label="messageClass" name="messageClass" type="string"/>
+<Field __index="234" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception/@messageNumber" containerType="SINGLE" label="messageNumber" name="messageNumber" type="string"/>
+<Field __index="235" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception/@messageType" containerType="SINGLE" label="messageType" name="messageType" type="string"/>
+<Field __index="236" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/exceptions/exception/@text()" containerType="SINGLE" label="text()" name="text" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="16" __referenceCounter="1" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="728400e5-8d8e-4a9c-8f04-e82d875e0d23" _parent_id="__parent_id" _type="Input" id="a818d074-fe6d-486d-b87a-2c1ed78b9682">
+<Record fieldDelimiter="," name="row" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="16" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MANDT" containerType="SINGLE" label="MANDT" name="MANDT" type="string"/>
+<Field __index="17" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MATNR" containerType="SINGLE" label="MATNR" name="MATNR" type="string"/>
+<Field __index="18" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAKTX" containerType="SINGLE" label="MAKTX" name="MAKTX" type="string"/>
+<Field __index="19" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERSDA" containerType="SINGLE" label="ERSDA" name="ERSDA" type="string"/>
+<Field __index="20" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERNAM" containerType="SINGLE" label="ERNAM" name="ERNAM" type="string"/>
+<Field __index="21" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LAEDA" containerType="SINGLE" label="LAEDA" name="LAEDA" type="string"/>
+<Field __index="22" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/AENAM" containerType="SINGLE" label="AENAM" name="AENAM" type="string"/>
+<Field __index="23" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VPSTA" containerType="SINGLE" label="VPSTA" name="VPSTA" type="string"/>
+<Field __index="24" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PSTAT" containerType="SINGLE" label="PSTAT" name="PSTAT" type="string"/>
+<Field __index="25" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LVORM" containerType="SINGLE" label="LVORM" name="LVORM" type="string"/>
+<Field __index="26" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MTART" containerType="SINGLE" label="MTART" name="MTART" type="string"/>
+<Field __index="27" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MBRSH" containerType="SINGLE" label="MBRSH" name="MBRSH" type="string"/>
+<Field __index="28" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MATKL" containerType="SINGLE" label="MATKL" name="MATKL" type="string"/>
+<Field __index="29" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BISMT" containerType="SINGLE" label="BISMT" name="BISMT" type="string"/>
+<Field __index="30" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MEINS" containerType="SINGLE" label="MEINS" name="MEINS" type="string"/>
+<Field __index="31" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BSTME" containerType="SINGLE" label="BSTME" name="BSTME" type="string"/>
+<Field __index="32" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ZEINR" containerType="SINGLE" label="ZEINR" name="ZEINR" type="string"/>
+<Field __index="33" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ZEIAR" containerType="SINGLE" label="ZEIAR" name="ZEIAR" type="string"/>
+<Field __index="34" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ZEIVR" containerType="SINGLE" label="ZEIVR" name="ZEIVR" type="string"/>
+<Field __index="35" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ZEIFO" containerType="SINGLE" label="ZEIFO" name="ZEIFO" type="string"/>
+<Field __index="36" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/AESZN" containerType="SINGLE" label="AESZN" name="AESZN" type="string"/>
+<Field __index="37" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BLATT" containerType="SINGLE" label="BLATT" name="BLATT" type="string"/>
+<Field __index="38" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BLANZ" containerType="SINGLE" label="BLANZ" name="BLANZ" type="string"/>
+<Field __index="39" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FERTH" containerType="SINGLE" label="FERTH" name="FERTH" type="string"/>
+<Field __index="40" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FORMT" containerType="SINGLE" label="FORMT" name="FORMT" type="string"/>
+<Field __index="41" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GROES" containerType="SINGLE" label="GROES" name="GROES" type="string"/>
+<Field __index="42" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/WRKST" containerType="SINGLE" label="WRKST" name="WRKST" type="string"/>
+<Field __index="43" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/NORMT" containerType="SINGLE" label="NORMT" name="NORMT" type="string"/>
+<Field __index="44" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LABOR" containerType="SINGLE" label="LABOR" name="LABOR" type="string"/>
+<Field __index="45" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/EKWSL" containerType="SINGLE" label="EKWSL" name="EKWSL" type="string"/>
+<Field __index="46" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BRGEW" containerType="SINGLE" label="BRGEW" name="BRGEW" type="string"/>
+<Field __index="47" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/NTGEW" containerType="SINGLE" label="NTGEW" name="NTGEW" type="string"/>
+<Field __index="48" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GEWEI" containerType="SINGLE" label="GEWEI" name="GEWEI" type="string"/>
+<Field __index="49" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VOLUM" containerType="SINGLE" label="VOLUM" name="VOLUM" type="string"/>
+<Field __index="50" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VOLEH" containerType="SINGLE" label="VOLEH" name="VOLEH" type="string"/>
+<Field __index="51" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BEHVO" containerType="SINGLE" label="BEHVO" name="BEHVO" type="string"/>
+<Field __index="52" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/RAUBE" containerType="SINGLE" label="RAUBE" name="RAUBE" type="string"/>
+<Field __index="53" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/TEMPB" containerType="SINGLE" label="TEMPB" name="TEMPB" type="string"/>
+<Field __index="54" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/DISST" containerType="SINGLE" label="DISST" name="DISST" type="string"/>
+<Field __index="55" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/TRAGR" containerType="SINGLE" label="TRAGR" name="TRAGR" type="string"/>
+<Field __index="56" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/STOFF" containerType="SINGLE" label="STOFF" name="STOFF" type="string"/>
+<Field __index="57" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SPART" containerType="SINGLE" label="SPART" name="SPART" type="string"/>
+<Field __index="58" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KUNNR" containerType="SINGLE" label="KUNNR" name="KUNNR" type="string"/>
+<Field __index="59" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/EANNR" containerType="SINGLE" label="EANNR" name="EANNR" type="string"/>
+<Field __index="60" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/WESCH" containerType="SINGLE" label="WESCH" name="WESCH" type="string"/>
+<Field __index="61" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BWVOR" containerType="SINGLE" label="BWVOR" name="BWVOR" type="string"/>
+<Field __index="62" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BWSCL" containerType="SINGLE" label="BWSCL" name="BWSCL" type="string"/>
+<Field __index="63" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SAISO" containerType="SINGLE" label="SAISO" name="SAISO" type="string"/>
+<Field __index="64" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ETIAR" containerType="SINGLE" label="ETIAR" name="ETIAR" type="string"/>
+<Field __index="65" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ETIFO" containerType="SINGLE" label="ETIFO" name="ETIFO" type="string"/>
+<Field __index="66" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ENTAR" containerType="SINGLE" label="ENTAR" name="ENTAR" type="string"/>
+<Field __index="67" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/EAN11" containerType="SINGLE" label="EAN11" name="EAN11" type="string"/>
+<Field __index="68" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/NUMTP" containerType="SINGLE" label="NUMTP" name="NUMTP" type="string"/>
+<Field __index="69" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LAENG" containerType="SINGLE" label="LAENG" name="LAENG" type="string"/>
+<Field __index="70" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BREIT" containerType="SINGLE" label="BREIT" name="BREIT" type="string"/>
+<Field __index="71" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HOEHE" containerType="SINGLE" label="HOEHE" name="HOEHE" type="string"/>
+<Field __index="72" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MEABM" containerType="SINGLE" label="MEABM" name="MEABM" type="string"/>
+<Field __index="73" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PRDHA" containerType="SINGLE" label="PRDHA" name="PRDHA" type="string"/>
+<Field __index="74" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/AEKLK" containerType="SINGLE" label="AEKLK" name="AEKLK" type="string"/>
+<Field __index="75" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CADKZ" containerType="SINGLE" label="CADKZ" name="CADKZ" type="string"/>
+<Field __index="76" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/QMPUR" containerType="SINGLE" label="QMPUR" name="QMPUR" type="string"/>
+<Field __index="77" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERGEW" containerType="SINGLE" label="ERGEW" name="ERGEW" type="string"/>
+<Field __index="78" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERGEI" containerType="SINGLE" label="ERGEI" name="ERGEI" type="string"/>
+<Field __index="79" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERVOL" containerType="SINGLE" label="ERVOL" name="ERVOL" type="string"/>
+<Field __index="80" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ERVOE" containerType="SINGLE" label="ERVOE" name="ERVOE" type="string"/>
+<Field __index="81" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GEWTO" containerType="SINGLE" label="GEWTO" name="GEWTO" type="string"/>
+<Field __index="82" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VOLTO" containerType="SINGLE" label="VOLTO" name="VOLTO" type="string"/>
+<Field __index="83" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VABME" containerType="SINGLE" label="VABME" name="VABME" type="string"/>
+<Field __index="84" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZREV" containerType="SINGLE" label="KZREV" name="KZREV" type="string"/>
+<Field __index="85" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZKFG" containerType="SINGLE" label="KZKFG" name="KZKFG" type="string"/>
+<Field __index="86" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/XCHPF" containerType="SINGLE" label="XCHPF" name="XCHPF" type="string"/>
+<Field __index="87" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VHART" containerType="SINGLE" label="VHART" name="VHART" type="string"/>
+<Field __index="88" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FUELG" containerType="SINGLE" label="FUELG" name="FUELG" type="string"/>
+<Field __index="89" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/STFAK" containerType="SINGLE" label="STFAK" name="STFAK" type="string"/>
+<Field __index="90" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAGRV" containerType="SINGLE" label="MAGRV" name="MAGRV" type="string"/>
+<Field __index="91" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BEGRU" containerType="SINGLE" label="BEGRU" name="BEGRU" type="string"/>
+<Field __index="92" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/DATAB" containerType="SINGLE" label="DATAB" name="DATAB" type="string"/>
+<Field __index="93" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LIQDT" containerType="SINGLE" label="LIQDT" name="LIQDT" type="string"/>
+<Field __index="94" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SAISJ" containerType="SINGLE" label="SAISJ" name="SAISJ" type="string"/>
+<Field __index="95" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PLGTP" containerType="SINGLE" label="PLGTP" name="PLGTP" type="string"/>
+<Field __index="96" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MLGUT" containerType="SINGLE" label="MLGUT" name="MLGUT" type="string"/>
+<Field __index="97" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/EXTWG" containerType="SINGLE" label="EXTWG" name="EXTWG" type="string"/>
+<Field __index="98" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SATNR" containerType="SINGLE" label="SATNR" name="SATNR" type="string"/>
+<Field __index="99" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ATTYP" containerType="SINGLE" label="ATTYP" name="ATTYP" type="string"/>
+<Field __index="100" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZKUP" containerType="SINGLE" label="KZKUP" name="KZKUP" type="string"/>
+<Field __index="101" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZNFM" containerType="SINGLE" label="KZNFM" name="KZNFM" type="string"/>
+<Field __index="102" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PMATA" containerType="SINGLE" label="PMATA" name="PMATA" type="string"/>
+<Field __index="103" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MSTAE" containerType="SINGLE" label="MSTAE" name="MSTAE" type="string"/>
+<Field __index="104" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MSTAV" containerType="SINGLE" label="MSTAV" name="MSTAV" type="string"/>
+<Field __index="105" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MSTDE" containerType="SINGLE" label="MSTDE" name="MSTDE" type="string"/>
+<Field __index="106" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MSTDV" containerType="SINGLE" label="MSTDV" name="MSTDV" type="string"/>
+<Field __index="107" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/TAKLV" containerType="SINGLE" label="TAKLV" name="TAKLV" type="string"/>
+<Field __index="108" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/RBNRM" containerType="SINGLE" label="RBNRM" name="RBNRM" type="string"/>
+<Field __index="109" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MHDRZ" containerType="SINGLE" label="MHDRZ" name="MHDRZ" type="string"/>
+<Field __index="110" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MHDHB" containerType="SINGLE" label="MHDHB" name="MHDHB" type="string"/>
+<Field __index="111" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MHDLP" containerType="SINGLE" label="MHDLP" name="MHDLP" type="string"/>
+<Field __index="112" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/INHME" containerType="SINGLE" label="INHME" name="INHME" type="string"/>
+<Field __index="113" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/INHAL" containerType="SINGLE" label="INHAL" name="INHAL" type="string"/>
+<Field __index="114" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VPREH" containerType="SINGLE" label="VPREH" name="VPREH" type="string"/>
+<Field __index="115" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ETIAG" containerType="SINGLE" label="ETIAG" name="ETIAG" type="string"/>
+<Field __index="116" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/INHBR" containerType="SINGLE" label="INHBR" name="INHBR" type="string"/>
+<Field __index="117" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CMETH" containerType="SINGLE" label="CMETH" name="CMETH" type="string"/>
+<Field __index="118" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CUOBF" containerType="SINGLE" label="CUOBF" name="CUOBF" type="string"/>
+<Field __index="119" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZUMW" containerType="SINGLE" label="KZUMW" name="KZUMW" type="string"/>
+<Field __index="120" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KOSCH" containerType="SINGLE" label="KOSCH" name="KOSCH" type="string"/>
+<Field __index="121" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SPROF" containerType="SINGLE" label="SPROF" name="SPROF" type="string"/>
+<Field __index="122" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/NRFHG" containerType="SINGLE" label="NRFHG" name="NRFHG" type="string"/>
+<Field __index="123" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MFRPN" containerType="SINGLE" label="MFRPN" name="MFRPN" type="string"/>
+<Field __index="124" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MFRNR" containerType="SINGLE" label="MFRNR" name="MFRNR" type="string"/>
+<Field __index="125" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BMATN" containerType="SINGLE" label="BMATN" name="BMATN" type="string"/>
+<Field __index="126" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MPROF" containerType="SINGLE" label="MPROF" name="MPROF" type="string"/>
+<Field __index="127" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZWSM" containerType="SINGLE" label="KZWSM" name="KZWSM" type="string"/>
+<Field __index="128" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SAITY" containerType="SINGLE" label="SAITY" name="SAITY" type="string"/>
+<Field __index="129" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PROFL" containerType="SINGLE" label="PROFL" name="PROFL" type="string"/>
+<Field __index="130" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/IHIVI" containerType="SINGLE" label="IHIVI" name="IHIVI" type="string"/>
+<Field __index="131" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ILOOS" containerType="SINGLE" label="ILOOS" name="ILOOS" type="string"/>
+<Field __index="132" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SERLV" containerType="SINGLE" label="SERLV" name="SERLV" type="string"/>
+<Field __index="133" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZGVH" containerType="SINGLE" label="KZGVH" name="KZGVH" type="string"/>
+<Field __index="134" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/XGCHP" containerType="SINGLE" label="XGCHP" name="XGCHP" type="string"/>
+<Field __index="135" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/KZEFF" containerType="SINGLE" label="KZEFF" name="KZEFF" type="string"/>
+<Field __index="136" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/COMPL" containerType="SINGLE" label="COMPL" name="COMPL" type="string"/>
+<Field __index="137" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/IPRKZ" containerType="SINGLE" label="IPRKZ" name="IPRKZ" type="string"/>
+<Field __index="138" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/RDMHD" containerType="SINGLE" label="RDMHD" name="RDMHD" type="string"/>
+<Field __index="139" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PRZUS" containerType="SINGLE" label="PRZUS" name="PRZUS" type="string"/>
+<Field __index="140" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MTPOS_MARA" containerType="SINGLE" label="MTPOS_MARA" name="MTPOS_MARA" type="string"/>
+<Field __index="141" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BFLME" containerType="SINGLE" label="BFLME" name="BFLME" type="string"/>
+<Field __index="142" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MATFI" containerType="SINGLE" label="MATFI" name="MATFI" type="string"/>
+<Field __index="143" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CMREL" containerType="SINGLE" label="CMREL" name="CMREL" type="string"/>
+<Field __index="144" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BBTYP" containerType="SINGLE" label="BBTYP" name="BBTYP" type="string"/>
+<Field __index="145" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SLED_BBD" containerType="SINGLE" label="SLED_BBD" name="SLED_BBD" type="string"/>
+<Field __index="146" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GTIN_VARIANT" containerType="SINGLE" label="GTIN_VARIANT" name="GTIN_VARIANT" type="string"/>
+<Field __index="147" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GENNR" containerType="SINGLE" label="GENNR" name="GENNR" type="string"/>
+<Field __index="148" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/RMATP" containerType="SINGLE" label="RMATP" name="RMATP" type="string"/>
+<Field __index="149" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/GDS_RELEVANT" containerType="SINGLE" label="GDS_RELEVANT" name="GDS_RELEVANT" type="string"/>
+<Field __index="150" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/WEORA" containerType="SINGLE" label="WEORA" name="WEORA" type="string"/>
+<Field __index="151" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HUTYP_DFLT" containerType="SINGLE" label="HUTYP_DFLT" name="HUTYP_DFLT" type="string"/>
+<Field __index="152" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PILFERABLE" containerType="SINGLE" label="PILFERABLE" name="PILFERABLE" type="string"/>
+<Field __index="153" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/WHSTC" containerType="SINGLE" label="WHSTC" name="WHSTC" type="string"/>
+<Field __index="154" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/WHMATGR" containerType="SINGLE" label="WHMATGR" name="WHMATGR" type="string"/>
+<Field __index="155" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HNDLCODE" containerType="SINGLE" label="HNDLCODE" name="HNDLCODE" type="string"/>
+<Field __index="156" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HAZMAT" containerType="SINGLE" label="HAZMAT" name="HAZMAT" type="string"/>
+<Field __index="157" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HUTYP" containerType="SINGLE" label="HUTYP" name="HUTYP" type="string"/>
+<Field __index="158" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/TARE_VAR" containerType="SINGLE" label="TARE_VAR" name="TARE_VAR" type="string"/>
+<Field __index="159" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXC" containerType="SINGLE" label="MAXC" name="MAXC" type="string"/>
+<Field __index="160" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXC_TOL" containerType="SINGLE" label="MAXC_TOL" name="MAXC_TOL" type="string"/>
+<Field __index="161" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXL" containerType="SINGLE" label="MAXL" name="MAXL" type="string"/>
+<Field __index="162" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXB" containerType="SINGLE" label="MAXB" name="MAXB" type="string"/>
+<Field __index="163" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXH" containerType="SINGLE" label="MAXH" name="MAXH" type="string"/>
+<Field __index="164" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MAXDIM_UOM" containerType="SINGLE" label="MAXDIM_UOM" name="MAXDIM_UOM" type="string"/>
+<Field __index="165" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/HERKL" containerType="SINGLE" label="HERKL" name="HERKL" type="string"/>
+<Field __index="166" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MFRGR" containerType="SINGLE" label="MFRGR" name="MFRGR" type="string"/>
+<Field __index="167" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/QQTIME" containerType="SINGLE" label="QQTIME" name="QQTIME" type="string"/>
+<Field __index="168" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/QQTIMEUOM" containerType="SINGLE" label="QQTIMEUOM" name="QQTIMEUOM" type="string"/>
+<Field __index="169" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/QGRP" containerType="SINGLE" label="QGRP" name="QGRP" type="string"/>
+<Field __index="170" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SERIAL" containerType="SINGLE" label="SERIAL" name="SERIAL" type="string"/>
+<Field __index="171" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PS_SMARTFORM" containerType="SINGLE" label="PS_SMARTFORM" name="PS_SMARTFORM" type="string"/>
+<Field __index="172" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LOGUNIT" containerType="SINGLE" label="LOGUNIT" name="LOGUNIT" type="string"/>
+<Field __index="173" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CWQREL" containerType="SINGLE" label="CWQREL" name="CWQREL" type="string"/>
+<Field __index="174" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CWQPROC" containerType="SINGLE" label="CWQPROC" name="CWQPROC" type="string"/>
+<Field __index="175" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CWQTOLGR" containerType="SINGLE" label="CWQTOLGR" name="CWQTOLGR" type="string"/>
+<Field __index="176" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ADPROF" containerType="SINGLE" label="ADPROF" name="ADPROF" type="string"/>
+<Field __index="177" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/IPMIPPRODUCT" containerType="SINGLE" label="IPMIPPRODUCT" name="IPMIPPRODUCT" type="string"/>
+<Field __index="178" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ALLOW_PMAT_IGNO" containerType="SINGLE" label="ALLOW_PMAT_IGNO" name="ALLOW_PMAT_IGNO" type="string"/>
+<Field __index="179" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MEDIUM" containerType="SINGLE" label="MEDIUM" name="MEDIUM" type="string"/>
+<Field __index="180" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BEV1_LULEINH" containerType="SINGLE" label="BEV1_LULEINH" name="BEV1_LULEINH" type="string"/>
+<Field __index="181" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BEV1_LULDEGRP" containerType="SINGLE" label="BEV1_LULDEGRP" name="BEV1_LULDEGRP" type="string"/>
+<Field __index="182" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BEV1_NESTRUCCAT" containerType="SINGLE" label="BEV1_NESTRUCCAT" name="BEV1_NESTRUCCAT" type="string"/>
+<Field __index="183" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/DSD_SL_TOLTYP" containerType="SINGLE" label="DSD_SL_TOLTYP" name="DSD_SL_TOLTYP" type="string"/>
+<Field __index="184" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/DSD_SV_CNT_GRP" containerType="SINGLE" label="DSD_SV_CNT_GRP" name="DSD_SV_CNT_GRP" type="string"/>
+<Field __index="185" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_TILT_IND" containerType="SINGLE" label="VSO_R_TILT_IND" name="VSO_R_TILT_IND" type="string"/>
+<Field __index="186" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_STACK_IND" containerType="SINGLE" label="VSO_R_STACK_IND" name="VSO_R_STACK_IND" type="string"/>
+<Field __index="187" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_BOT_IND" containerType="SINGLE" label="VSO_R_BOT_IND" name="VSO_R_BOT_IND" type="string"/>
+<Field __index="188" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_TOP_IND" containerType="SINGLE" label="VSO_R_TOP_IND" name="VSO_R_TOP_IND" type="string"/>
+<Field __index="189" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_STACK_NO" containerType="SINGLE" label="VSO_R_STACK_NO" name="VSO_R_STACK_NO" type="string"/>
+<Field __index="190" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_PAL_IND" containerType="SINGLE" label="VSO_R_PAL_IND" name="VSO_R_PAL_IND" type="string"/>
+<Field __index="191" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_PAL_OVR_D" containerType="SINGLE" label="VSO_R_PAL_OVR_D" name="VSO_R_PAL_OVR_D" type="string"/>
+<Field __index="192" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_PAL_OVR_W" containerType="SINGLE" label="VSO_R_PAL_OVR_W" name="VSO_R_PAL_OVR_W" type="string"/>
+<Field __index="193" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_PAL_B_HT" containerType="SINGLE" label="VSO_R_PAL_B_HT" name="VSO_R_PAL_B_HT" type="string"/>
+<Field __index="194" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_PAL_MIN_H" containerType="SINGLE" label="VSO_R_PAL_MIN_H" name="VSO_R_PAL_MIN_H" type="string"/>
+<Field __index="195" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_TOL_B_HT" containerType="SINGLE" label="VSO_R_TOL_B_HT" name="VSO_R_TOL_B_HT" type="string"/>
+<Field __index="196" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_NO_P_GVH" containerType="SINGLE" label="VSO_R_NO_P_GVH" name="VSO_R_NO_P_GVH" type="string"/>
+<Field __index="197" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_QUAN_UNIT" containerType="SINGLE" label="VSO_R_QUAN_UNIT" name="VSO_R_QUAN_UNIT" type="string"/>
+<Field __index="198" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/VSO_R_KZGVH_IND" containerType="SINGLE" label="VSO_R_KZGVH_IND" name="VSO_R_KZGVH_IND" type="string"/>
+<Field __index="199" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PACKCODE" containerType="SINGLE" label="PACKCODE" name="PACKCODE" type="string"/>
+<Field __index="200" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/DG_PACK_STATUS" containerType="SINGLE" label="DG_PACK_STATUS" name="DG_PACK_STATUS" type="string"/>
+<Field __index="201" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/MCOND" containerType="SINGLE" label="MCOND" name="MCOND" type="string"/>
+<Field __index="202" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/RETDELC" containerType="SINGLE" label="RETDELC" name="RETDELC" type="string"/>
+<Field __index="203" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LOGLEV_RETO" containerType="SINGLE" label="LOGLEV_RETO" name="LOGLEV_RETO" type="string"/>
+<Field __index="204" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/ADSPC_SPC" containerType="SINGLE" label="ADSPC_SPC" name="ADSPC_SPC" type="string"/>
+<Field __index="205" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/IMATN" containerType="SINGLE" label="IMATN" name="IMATN" type="string"/>
+<Field __index="206" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/PICNUM" containerType="SINGLE" label="PICNUM" name="PICNUM" type="string"/>
+<Field __index="207" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BSTAT" containerType="SINGLE" label="BSTAT" name="BSTAT" type="string"/>
+<Field __index="208" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/COLOR_ATINN" containerType="SINGLE" label="COLOR_ATINN" name="COLOR_ATINN" type="string"/>
+<Field __index="209" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SIZE1_ATINN" containerType="SINGLE" label="SIZE1_ATINN" name="SIZE1_ATINN" type="string"/>
+<Field __index="210" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SIZE2_ATINN" containerType="SINGLE" label="SIZE2_ATINN" name="SIZE2_ATINN" type="string"/>
+<Field __index="211" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/COLOR" containerType="SINGLE" label="COLOR" name="COLOR" type="string"/>
+<Field __index="212" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SIZE1" containerType="SINGLE" label="SIZE1" name="SIZE1" type="string"/>
+<Field __index="213" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/SIZE2" containerType="SINGLE" label="SIZE2" name="SIZE2" type="string"/>
+<Field __index="214" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FREE_CHAR" containerType="SINGLE" label="FREE_CHAR" name="FREE_CHAR" type="string"/>
+<Field __index="215" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CARE_CODE" containerType="SINGLE" label="CARE_CODE" name="CARE_CODE" type="string"/>
+<Field __index="216" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/BRAND_ID" containerType="SINGLE" label="BRAND_ID" name="BRAND_ID" type="string"/>
+<Field __index="217" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_CODE1" containerType="SINGLE" label="FIBER_CODE1" name="FIBER_CODE1" type="string"/>
+<Field __index="218" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_PART1" containerType="SINGLE" label="FIBER_PART1" name="FIBER_PART1" type="string"/>
+<Field __index="219" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_CODE2" containerType="SINGLE" label="FIBER_CODE2" name="FIBER_CODE2" type="string"/>
+<Field __index="220" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_PART2" containerType="SINGLE" label="FIBER_PART2" name="FIBER_PART2" type="string"/>
+<Field __index="221" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_CODE3" containerType="SINGLE" label="FIBER_CODE3" name="FIBER_CODE3" type="string"/>
+<Field __index="222" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_PART3" containerType="SINGLE" label="FIBER_PART3" name="FIBER_PART3" type="string"/>
+<Field __index="223" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_CODE4" containerType="SINGLE" label="FIBER_CODE4" name="FIBER_CODE4" type="string"/>
+<Field __index="224" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_PART4" containerType="SINGLE" label="FIBER_PART4" name="FIBER_PART4" type="string"/>
+<Field __index="225" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_CODE5" containerType="SINGLE" label="FIBER_CODE5" name="FIBER_CODE5" type="string"/>
+<Field __index="226" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FIBER_PART5" containerType="SINGLE" label="FIBER_PART5" name="FIBER_PART5" type="string"/>
+<Field __index="227" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/FASHGRD" containerType="SINGLE" label="FASHGRD" name="FASHGRD" type="string"/>
+<Field __index="228" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/UTIME" containerType="SINGLE" label="UTIME" name="UTIME" type="string"/>
+<Field __index="229" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/CTIME" containerType="SINGLE" label="CTIME" name="CTIME" type="string"/>
+<Field __index="230" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/LAST_MODIF_DATE" containerType="SINGLE" label="LAST_MODIF_DATE" name="LAST_MODIF_DATE" type="string"/>
+<Field __index="231" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/tables/T_MARA/row/@id" containerType="SINGLE" label="id" name="id" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="2" __sourcePath="{}/Salesforce_x0020Materials" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="4c67daca-8ed9-43b1-a0e6-505fa2928660">
+<Record fieldDelimiter="," name="Salesforce_Materials" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/Salesforce_x0020Materials/Name" containerType="SINGLE" label="Name" name="Name" type="string"/>
+<Field __sourcePath="{}/Salesforce_x0020Materials/LastModifiedDate" containerType="SINGLE" label="LastModifiedDate" name="LastModifiedDate" type="string"/>
+<Field __sourcePath="{}/Salesforce_x0020Materials/LastModifiedById" containerType="SINGLE" label="LastModifiedById" name="LastModifiedById" type="string"/>
+<Field __sourcePath="{}/Salesforce_x0020Materials/CreatedById" containerType="SINGLE" label="CreatedById" name="CreatedById" type="string"/>
+<Field __sourcePath="{}/Salesforce_x0020Materials/ProductCode" containerType="SINGLE" label="ProductCode" name="ProductCode" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/ZMULE_MATERIAL_GETLIST" _dataStructure="OBJECT" _id="__id" _type="Input" id="728400e5-8d8e-4a9c-8f04-e82d875e0d23">
+<Record fieldDelimiter="," name="ZMULE_MATERIAL_GETLIST" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/import/I_FROM_DATE" containerType="SINGLE" label="I_FROM_DATE" name="I_FROM_DATE" type="string"/>
+<Field __index="1" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/import/I_MAT_ID" containerType="SINGLE" label="I_MAT_ID" name="I_MAT_ID" type="string"/>
+<Field __index="2" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/TYPE" containerType="SINGLE" label="TYPE" name="TYPE" type="string"/>
+<Field __index="3" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/ID" containerType="SINGLE" label="ID" name="ID" type="string"/>
+<Field __index="4" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/NUMBER" containerType="SINGLE" label="NUMBER" name="NUMBER" type="string"/>
+<Field __index="5" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/MESSAGE" containerType="SINGLE" label="MESSAGE" name="MESSAGE" type="string"/>
+<Field __index="6" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/LOG_NO" containerType="SINGLE" label="LOG_NO" name="LOG_NO" type="string"/>
+<Field __index="7" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/LOG_MSG_NO" containerType="SINGLE" label="LOG_MSG_NO" name="LOG_MSG_NO" type="string"/>
+<Field __index="8" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/MESSAGE_V1" containerType="SINGLE" label="MESSAGE_V1" name="MESSAGE_V1" type="string"/>
+<Field __index="9" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/MESSAGE_V2" containerType="SINGLE" label="MESSAGE_V2" name="MESSAGE_V2" type="string"/>
+<Field __index="10" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/MESSAGE_V3" containerType="SINGLE" label="MESSAGE_V3" name="MESSAGE_V3" type="string"/>
+<Field __index="11" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/MESSAGE_V4" containerType="SINGLE" label="MESSAGE_V4" name="MESSAGE_V4" type="string"/>
+<Field __index="12" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/PARAMETER" containerType="SINGLE" label="PARAMETER" name="PARAMETER" type="string"/>
+<Field __index="13" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/ROW" containerType="SINGLE" label="ROW" name="ROW" type="string"/>
+<Field __index="14" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/FIELD" containerType="SINGLE" label="FIELD" name="FIELD" type="string"/>
+<Field __index="15" __sourcePath="{}/ZMULE_MATERIAL_GETLIST/export/E_RETURN/SYSTEM" containerType="SINGLE" label="SYSTEM" name="SYSTEM" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'row' -&gt; 'Salesforce_x0020Materials'" guiX="460" guiY="120" id="FOREACH_ROW_SALESFORCE_X0020MATERIALS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.Name = input.MAKTX;
+output.LastModifiedDate = input.LAST_MODIF_DATE;
+output.CreatedById = input.ERNAM;
+output.LastModifiedById = input.AENAM;
+output.ProductCode = input.MATNR;]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'ZMULE_MATERIAL_GETLIST' -&gt; 'Salesforce_x0020Materials'" guiX="460" guiY="20" id="FOREACH_ZMULE_MATERIAL_GETLIST_SALESFORCE_X0020MATERIALS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+]]></attr>
+</Node>
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="Salesforce Materials" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="1">
+    <Name>$1.Name</Name>
+    <LastModifiedDate>$1.LastModifiedDate</LastModifiedDate>
+    <LastModifiedById>$1.LastModifiedById</LastModifiedById>
+    <CreatedById>$1.CreatedById</CreatedById>
+    <ProductCode>$1.ProductCode</ProductCode>
+  </item>
+  <item clover:inPort="0">
+    <Name>$0.Name</Name>
+    <LastModifiedDate>$0.LastModifiedDate</LastModifiedDate>
+    <LastModifiedById>$0.LastModifiedById</LastModifiedById>
+    <CreatedById>$0.CreatedById</CreatedById>
+    <ProductCode>$0.ProductCode</ProductCode>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/main/resources/ZMULE_MATERIAL_GETLIST.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath="/ZMULE_MATERIAL_GETLIST">
+  <Mapping cloverField="I_FROM_DATE" trim="true" xpath="import/I_FROM_DATE"/>
+  <Mapping cloverField="I_MAT_ID" trim="true" xpath="import/I_MAT_ID"/>
+  <Mapping cloverField="TYPE" trim="true" xpath="export/E_RETURN/TYPE"/>
+  <Mapping cloverField="ID" trim="true" xpath="export/E_RETURN/ID"/>
+  <Mapping cloverField="NUMBER" trim="true" xpath="export/E_RETURN/NUMBER"/>
+  <Mapping cloverField="MESSAGE" trim="true" xpath="export/E_RETURN/MESSAGE"/>
+  <Mapping cloverField="LOG_NO" trim="true" xpath="export/E_RETURN/LOG_NO"/>
+  <Mapping cloverField="LOG_MSG_NO" trim="true" xpath="export/E_RETURN/LOG_MSG_NO"/>
+  <Mapping cloverField="MESSAGE_V1" trim="true" xpath="export/E_RETURN/MESSAGE_V1"/>
+  <Mapping cloverField="MESSAGE_V2" trim="true" xpath="export/E_RETURN/MESSAGE_V2"/>
+  <Mapping cloverField="MESSAGE_V3" trim="true" xpath="export/E_RETURN/MESSAGE_V3"/>
+  <Mapping cloverField="MESSAGE_V4" trim="true" xpath="export/E_RETURN/MESSAGE_V4"/>
+  <Mapping cloverField="PARAMETER" trim="true" xpath="export/E_RETURN/PARAMETER"/>
+  <Mapping cloverField="ROW" trim="true" xpath="export/E_RETURN/ROW"/>
+  <Mapping cloverField="FIELD" trim="true" xpath="export/E_RETURN/FIELD"/>
+  <Mapping cloverField="SYSTEM" trim="true" xpath="export/E_RETURN/SYSTEM"/>
+  <Context generatedKey="__parent_id" outPort="1" parentKey="__id" sequenceField="__id" xpath="tables/T_MARA/row">
+    <Mapping cloverField="MANDT" trim="true" xpath="MANDT"/>
+    <Mapping cloverField="MATNR" trim="true" xpath="MATNR"/>
+    <Mapping cloverField="MAKTX" trim="true" xpath="MAKTX"/>
+    <Mapping cloverField="ERSDA" trim="true" xpath="ERSDA"/>
+    <Mapping cloverField="ERNAM" trim="true" xpath="ERNAM"/>
+    <Mapping cloverField="LAEDA" trim="true" xpath="LAEDA"/>
+    <Mapping cloverField="AENAM" trim="true" xpath="AENAM"/>
+    <Mapping cloverField="VPSTA" trim="true" xpath="VPSTA"/>
+    <Mapping cloverField="PSTAT" trim="true" xpath="PSTAT"/>
+    <Mapping cloverField="LVORM" trim="true" xpath="LVORM"/>
+    <Mapping cloverField="MTART" trim="true" xpath="MTART"/>
+    <Mapping cloverField="MBRSH" trim="true" xpath="MBRSH"/>
+    <Mapping cloverField="MATKL" trim="true" xpath="MATKL"/>
+    <Mapping cloverField="BISMT" trim="true" xpath="BISMT"/>
+    <Mapping cloverField="MEINS" trim="true" xpath="MEINS"/>
+    <Mapping cloverField="BSTME" trim="true" xpath="BSTME"/>
+    <Mapping cloverField="ZEINR" trim="true" xpath="ZEINR"/>
+    <Mapping cloverField="ZEIAR" trim="true" xpath="ZEIAR"/>
+    <Mapping cloverField="ZEIVR" trim="true" xpath="ZEIVR"/>
+    <Mapping cloverField="ZEIFO" trim="true" xpath="ZEIFO"/>
+    <Mapping cloverField="AESZN" trim="true" xpath="AESZN"/>
+    <Mapping cloverField="BLATT" trim="true" xpath="BLATT"/>
+    <Mapping cloverField="BLANZ" trim="true" xpath="BLANZ"/>
+    <Mapping cloverField="FERTH" trim="true" xpath="FERTH"/>
+    <Mapping cloverField="FORMT" trim="true" xpath="FORMT"/>
+    <Mapping cloverField="GROES" trim="true" xpath="GROES"/>
+    <Mapping cloverField="WRKST" trim="true" xpath="WRKST"/>
+    <Mapping cloverField="NORMT" trim="true" xpath="NORMT"/>
+    <Mapping cloverField="LABOR" trim="true" xpath="LABOR"/>
+    <Mapping cloverField="EKWSL" trim="true" xpath="EKWSL"/>
+    <Mapping cloverField="BRGEW" trim="true" xpath="BRGEW"/>
+    <Mapping cloverField="NTGEW" trim="true" xpath="NTGEW"/>
+    <Mapping cloverField="GEWEI" trim="true" xpath="GEWEI"/>
+    <Mapping cloverField="VOLUM" trim="true" xpath="VOLUM"/>
+    <Mapping cloverField="VOLEH" trim="true" xpath="VOLEH"/>
+    <Mapping cloverField="BEHVO" trim="true" xpath="BEHVO"/>
+    <Mapping cloverField="RAUBE" trim="true" xpath="RAUBE"/>
+    <Mapping cloverField="TEMPB" trim="true" xpath="TEMPB"/>
+    <Mapping cloverField="DISST" trim="true" xpath="DISST"/>
+    <Mapping cloverField="TRAGR" trim="true" xpath="TRAGR"/>
+    <Mapping cloverField="STOFF" trim="true" xpath="STOFF"/>
+    <Mapping cloverField="SPART" trim="true" xpath="SPART"/>
+    <Mapping cloverField="KUNNR" trim="true" xpath="KUNNR"/>
+    <Mapping cloverField="EANNR" trim="true" xpath="EANNR"/>
+    <Mapping cloverField="WESCH" trim="true" xpath="WESCH"/>
+    <Mapping cloverField="BWVOR" trim="true" xpath="BWVOR"/>
+    <Mapping cloverField="BWSCL" trim="true" xpath="BWSCL"/>
+    <Mapping cloverField="SAISO" trim="true" xpath="SAISO"/>
+    <Mapping cloverField="ETIAR" trim="true" xpath="ETIAR"/>
+    <Mapping cloverField="ETIFO" trim="true" xpath="ETIFO"/>
+    <Mapping cloverField="ENTAR" trim="true" xpath="ENTAR"/>
+    <Mapping cloverField="EAN11" trim="true" xpath="EAN11"/>
+    <Mapping cloverField="NUMTP" trim="true" xpath="NUMTP"/>
+    <Mapping cloverField="LAENG" trim="true" xpath="LAENG"/>
+    <Mapping cloverField="BREIT" trim="true" xpath="BREIT"/>
+    <Mapping cloverField="HOEHE" trim="true" xpath="HOEHE"/>
+    <Mapping cloverField="MEABM" trim="true" xpath="MEABM"/>
+    <Mapping cloverField="PRDHA" trim="true" xpath="PRDHA"/>
+    <Mapping cloverField="AEKLK" trim="true" xpath="AEKLK"/>
+    <Mapping cloverField="CADKZ" trim="true" xpath="CADKZ"/>
+    <Mapping cloverField="QMPUR" trim="true" xpath="QMPUR"/>
+    <Mapping cloverField="ERGEW" trim="true" xpath="ERGEW"/>
+    <Mapping cloverField="ERGEI" trim="true" xpath="ERGEI"/>
+    <Mapping cloverField="ERVOL" trim="true" xpath="ERVOL"/>
+    <Mapping cloverField="ERVOE" trim="true" xpath="ERVOE"/>
+    <Mapping cloverField="GEWTO" trim="true" xpath="GEWTO"/>
+    <Mapping cloverField="VOLTO" trim="true" xpath="VOLTO"/>
+    <Mapping cloverField="VABME" trim="true" xpath="VABME"/>
+    <Mapping cloverField="KZREV" trim="true" xpath="KZREV"/>
+    <Mapping cloverField="KZKFG" trim="true" xpath="KZKFG"/>
+    <Mapping cloverField="XCHPF" trim="true" xpath="XCHPF"/>
+    <Mapping cloverField="VHART" trim="true" xpath="VHART"/>
+    <Mapping cloverField="FUELG" trim="true" xpath="FUELG"/>
+    <Mapping cloverField="STFAK" trim="true" xpath="STFAK"/>
+    <Mapping cloverField="MAGRV" trim="true" xpath="MAGRV"/>
+    <Mapping cloverField="BEGRU" trim="true" xpath="BEGRU"/>
+    <Mapping cloverField="DATAB" trim="true" xpath="DATAB"/>
+    <Mapping cloverField="LIQDT" trim="true" xpath="LIQDT"/>
+    <Mapping cloverField="SAISJ" trim="true" xpath="SAISJ"/>
+    <Mapping cloverField="PLGTP" trim="true" xpath="PLGTP"/>
+    <Mapping cloverField="MLGUT" trim="true" xpath="MLGUT"/>
+    <Mapping cloverField="EXTWG" trim="true" xpath="EXTWG"/>
+    <Mapping cloverField="SATNR" trim="true" xpath="SATNR"/>
+    <Mapping cloverField="ATTYP" trim="true" xpath="ATTYP"/>
+    <Mapping cloverField="KZKUP" trim="true" xpath="KZKUP"/>
+    <Mapping cloverField="KZNFM" trim="true" xpath="KZNFM"/>
+    <Mapping cloverField="PMATA" trim="true" xpath="PMATA"/>
+    <Mapping cloverField="MSTAE" trim="true" xpath="MSTAE"/>
+    <Mapping cloverField="MSTAV" trim="true" xpath="MSTAV"/>
+    <Mapping cloverField="MSTDE" trim="true" xpath="MSTDE"/>
+    <Mapping cloverField="MSTDV" trim="true" xpath="MSTDV"/>
+    <Mapping cloverField="TAKLV" trim="true" xpath="TAKLV"/>
+    <Mapping cloverField="RBNRM" trim="true" xpath="RBNRM"/>
+    <Mapping cloverField="MHDRZ" trim="true" xpath="MHDRZ"/>
+    <Mapping cloverField="MHDHB" trim="true" xpath="MHDHB"/>
+    <Mapping cloverField="MHDLP" trim="true" xpath="MHDLP"/>
+    <Mapping cloverField="INHME" trim="true" xpath="INHME"/>
+    <Mapping cloverField="INHAL" trim="true" xpath="INHAL"/>
+    <Mapping cloverField="VPREH" trim="true" xpath="VPREH"/>
+    <Mapping cloverField="ETIAG" trim="true" xpath="ETIAG"/>
+    <Mapping cloverField="INHBR" trim="true" xpath="INHBR"/>
+    <Mapping cloverField="CMETH" trim="true" xpath="CMETH"/>
+    <Mapping cloverField="CUOBF" trim="true" xpath="CUOBF"/>
+    <Mapping cloverField="KZUMW" trim="true" xpath="KZUMW"/>
+    <Mapping cloverField="KOSCH" trim="true" xpath="KOSCH"/>
+    <Mapping cloverField="SPROF" trim="true" xpath="SPROF"/>
+    <Mapping cloverField="NRFHG" trim="true" xpath="NRFHG"/>
+    <Mapping cloverField="MFRPN" trim="true" xpath="MFRPN"/>
+    <Mapping cloverField="MFRNR" trim="true" xpath="MFRNR"/>
+    <Mapping cloverField="BMATN" trim="true" xpath="BMATN"/>
+    <Mapping cloverField="MPROF" trim="true" xpath="MPROF"/>
+    <Mapping cloverField="KZWSM" trim="true" xpath="KZWSM"/>
+    <Mapping cloverField="SAITY" trim="true" xpath="SAITY"/>
+    <Mapping cloverField="PROFL" trim="true" xpath="PROFL"/>
+    <Mapping cloverField="IHIVI" trim="true" xpath="IHIVI"/>
+    <Mapping cloverField="ILOOS" trim="true" xpath="ILOOS"/>
+    <Mapping cloverField="SERLV" trim="true" xpath="SERLV"/>
+    <Mapping cloverField="KZGVH" trim="true" xpath="KZGVH"/>
+    <Mapping cloverField="XGCHP" trim="true" xpath="XGCHP"/>
+    <Mapping cloverField="KZEFF" trim="true" xpath="KZEFF"/>
+    <Mapping cloverField="COMPL" trim="true" xpath="COMPL"/>
+    <Mapping cloverField="IPRKZ" trim="true" xpath="IPRKZ"/>
+    <Mapping cloverField="RDMHD" trim="true" xpath="RDMHD"/>
+    <Mapping cloverField="PRZUS" trim="true" xpath="PRZUS"/>
+    <Mapping cloverField="MTPOS_MARA" trim="true" xpath="MTPOS_MARA"/>
+    <Mapping cloverField="BFLME" trim="true" xpath="BFLME"/>
+    <Mapping cloverField="MATFI" trim="true" xpath="MATFI"/>
+    <Mapping cloverField="CMREL" trim="true" xpath="CMREL"/>
+    <Mapping cloverField="BBTYP" trim="true" xpath="BBTYP"/>
+    <Mapping cloverField="SLED_BBD" trim="true" xpath="SLED_BBD"/>
+    <Mapping cloverField="GTIN_VARIANT" trim="true" xpath="GTIN_VARIANT"/>
+    <Mapping cloverField="GENNR" trim="true" xpath="GENNR"/>
+    <Mapping cloverField="RMATP" trim="true" xpath="RMATP"/>
+    <Mapping cloverField="GDS_RELEVANT" trim="true" xpath="GDS_RELEVANT"/>
+    <Mapping cloverField="WEORA" trim="true" xpath="WEORA"/>
+    <Mapping cloverField="HUTYP_DFLT" trim="true" xpath="HUTYP_DFLT"/>
+    <Mapping cloverField="PILFERABLE" trim="true" xpath="PILFERABLE"/>
+    <Mapping cloverField="WHSTC" trim="true" xpath="WHSTC"/>
+    <Mapping cloverField="WHMATGR" trim="true" xpath="WHMATGR"/>
+    <Mapping cloverField="HNDLCODE" trim="true" xpath="HNDLCODE"/>
+    <Mapping cloverField="HAZMAT" trim="true" xpath="HAZMAT"/>
+    <Mapping cloverField="HUTYP" trim="true" xpath="HUTYP"/>
+    <Mapping cloverField="TARE_VAR" trim="true" xpath="TARE_VAR"/>
+    <Mapping cloverField="MAXC" trim="true" xpath="MAXC"/>
+    <Mapping cloverField="MAXC_TOL" trim="true" xpath="MAXC_TOL"/>
+    <Mapping cloverField="MAXL" trim="true" xpath="MAXL"/>
+    <Mapping cloverField="MAXB" trim="true" xpath="MAXB"/>
+    <Mapping cloverField="MAXH" trim="true" xpath="MAXH"/>
+    <Mapping cloverField="MAXDIM_UOM" trim="true" xpath="MAXDIM_UOM"/>
+    <Mapping cloverField="HERKL" trim="true" xpath="HERKL"/>
+    <Mapping cloverField="MFRGR" trim="true" xpath="MFRGR"/>
+    <Mapping cloverField="QQTIME" trim="true" xpath="QQTIME"/>
+    <Mapping cloverField="QQTIMEUOM" trim="true" xpath="QQTIMEUOM"/>
+    <Mapping cloverField="QGRP" trim="true" xpath="QGRP"/>
+    <Mapping cloverField="SERIAL" trim="true" xpath="SERIAL"/>
+    <Mapping cloverField="PS_SMARTFORM" trim="true" xpath="PS_SMARTFORM"/>
+    <Mapping cloverField="LOGUNIT" trim="true" xpath="LOGUNIT"/>
+    <Mapping cloverField="CWQREL" trim="true" xpath="CWQREL"/>
+    <Mapping cloverField="CWQPROC" trim="true" xpath="CWQPROC"/>
+    <Mapping cloverField="CWQTOLGR" trim="true" xpath="CWQTOLGR"/>
+    <Mapping cloverField="ADPROF" trim="true" xpath="ADPROF"/>
+    <Mapping cloverField="IPMIPPRODUCT" trim="true" xpath="IPMIPPRODUCT"/>
+    <Mapping cloverField="ALLOW_PMAT_IGNO" trim="true" xpath="ALLOW_PMAT_IGNO"/>
+    <Mapping cloverField="MEDIUM" trim="true" xpath="MEDIUM"/>
+    <Mapping cloverField="BEV1_LULEINH" trim="true" xpath="BEV1_LULEINH"/>
+    <Mapping cloverField="BEV1_LULDEGRP" trim="true" xpath="BEV1_LULDEGRP"/>
+    <Mapping cloverField="BEV1_NESTRUCCAT" trim="true" xpath="BEV1_NESTRUCCAT"/>
+    <Mapping cloverField="DSD_SL_TOLTYP" trim="true" xpath="DSD_SL_TOLTYP"/>
+    <Mapping cloverField="DSD_SV_CNT_GRP" trim="true" xpath="DSD_SV_CNT_GRP"/>
+    <Mapping cloverField="VSO_R_TILT_IND" trim="true" xpath="VSO_R_TILT_IND"/>
+    <Mapping cloverField="VSO_R_STACK_IND" trim="true" xpath="VSO_R_STACK_IND"/>
+    <Mapping cloverField="VSO_R_BOT_IND" trim="true" xpath="VSO_R_BOT_IND"/>
+    <Mapping cloverField="VSO_R_TOP_IND" trim="true" xpath="VSO_R_TOP_IND"/>
+    <Mapping cloverField="VSO_R_STACK_NO" trim="true" xpath="VSO_R_STACK_NO"/>
+    <Mapping cloverField="VSO_R_PAL_IND" trim="true" xpath="VSO_R_PAL_IND"/>
+    <Mapping cloverField="VSO_R_PAL_OVR_D" trim="true" xpath="VSO_R_PAL_OVR_D"/>
+    <Mapping cloverField="VSO_R_PAL_OVR_W" trim="true" xpath="VSO_R_PAL_OVR_W"/>
+    <Mapping cloverField="VSO_R_PAL_B_HT" trim="true" xpath="VSO_R_PAL_B_HT"/>
+    <Mapping cloverField="VSO_R_PAL_MIN_H" trim="true" xpath="VSO_R_PAL_MIN_H"/>
+    <Mapping cloverField="VSO_R_TOL_B_HT" trim="true" xpath="VSO_R_TOL_B_HT"/>
+    <Mapping cloverField="VSO_R_NO_P_GVH" trim="true" xpath="VSO_R_NO_P_GVH"/>
+    <Mapping cloverField="VSO_R_QUAN_UNIT" trim="true" xpath="VSO_R_QUAN_UNIT"/>
+    <Mapping cloverField="VSO_R_KZGVH_IND" trim="true" xpath="VSO_R_KZGVH_IND"/>
+    <Mapping cloverField="PACKCODE" trim="true" xpath="PACKCODE"/>
+    <Mapping cloverField="DG_PACK_STATUS" trim="true" xpath="DG_PACK_STATUS"/>
+    <Mapping cloverField="MCOND" trim="true" xpath="MCOND"/>
+    <Mapping cloverField="RETDELC" trim="true" xpath="RETDELC"/>
+    <Mapping cloverField="LOGLEV_RETO" trim="true" xpath="LOGLEV_RETO"/>
+    <Mapping cloverField="ADSPC_SPC" trim="true" xpath="ADSPC_SPC"/>
+    <Mapping cloverField="IMATN" trim="true" xpath="IMATN"/>
+    <Mapping cloverField="PICNUM" trim="true" xpath="PICNUM"/>
+    <Mapping cloverField="BSTAT" trim="true" xpath="BSTAT"/>
+    <Mapping cloverField="COLOR_ATINN" trim="true" xpath="COLOR_ATINN"/>
+    <Mapping cloverField="SIZE1_ATINN" trim="true" xpath="SIZE1_ATINN"/>
+    <Mapping cloverField="SIZE2_ATINN" trim="true" xpath="SIZE2_ATINN"/>
+    <Mapping cloverField="COLOR" trim="true" xpath="COLOR"/>
+    <Mapping cloverField="SIZE1" trim="true" xpath="SIZE1"/>
+    <Mapping cloverField="SIZE2" trim="true" xpath="SIZE2"/>
+    <Mapping cloverField="FREE_CHAR" trim="true" xpath="FREE_CHAR"/>
+    <Mapping cloverField="CARE_CODE" trim="true" xpath="CARE_CODE"/>
+    <Mapping cloverField="BRAND_ID" trim="true" xpath="BRAND_ID"/>
+    <Mapping cloverField="FIBER_CODE1" trim="true" xpath="FIBER_CODE1"/>
+    <Mapping cloverField="FIBER_PART1" trim="true" xpath="FIBER_PART1"/>
+    <Mapping cloverField="FIBER_CODE2" trim="true" xpath="FIBER_CODE2"/>
+    <Mapping cloverField="FIBER_PART2" trim="true" xpath="FIBER_PART2"/>
+    <Mapping cloverField="FIBER_CODE3" trim="true" xpath="FIBER_CODE3"/>
+    <Mapping cloverField="FIBER_PART3" trim="true" xpath="FIBER_PART3"/>
+    <Mapping cloverField="FIBER_CODE4" trim="true" xpath="FIBER_CODE4"/>
+    <Mapping cloverField="FIBER_PART4" trim="true" xpath="FIBER_PART4"/>
+    <Mapping cloverField="FIBER_CODE5" trim="true" xpath="FIBER_CODE5"/>
+    <Mapping cloverField="FIBER_PART5" trim="true" xpath="FIBER_PART5"/>
+    <Mapping cloverField="FASHGRD" trim="true" xpath="FASHGRD"/>
+    <Mapping cloverField="UTIME" trim="true" xpath="UTIME"/>
+    <Mapping cloverField="CTIME" trim="true" xpath="CTIME"/>
+    <Mapping cloverField="LAST_MODIF_DATE" trim="true" xpath="LAST_MODIF_DATE"/>
+    <Mapping cloverField="id" trim="true" xpath="@id"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[ZMULE_MATERIAL_GETLIST]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_ROW_SALESFORCE_X0020MATERIALS:0" guiBendpoints="" id="Edge3" inPort="Port 1 (in)" metadata="4c67daca-8ed9-43b1-a0e6-505fa2928660" outPort="Port 0 (out)" toNode="MAP_WRITER0:1"/>
+<Edge debugMode="true" fromNode="FOREACH_ZMULE_MATERIAL_GETLIST_SALESFORCE_X0020MATERIALS:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="4c67daca-8ed9-43b1-a0e6-505fa2928660" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="728400e5-8d8e-4a9c-8f04-e82d875e0d23" outPort="Port 0 (out)" toNode="FOREACH_ZMULE_MATERIAL_GETLIST_SALESFORCE_X0020MATERIALS:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:1" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="a818d074-fe6d-486d-b87a-2c1ed78b9682" outPort="Port 1 (out)" toNode="FOREACH_ROW_SALESFORCE_X0020MATERIALS:0"/>
+</Phase>
+</Graph>

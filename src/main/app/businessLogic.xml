@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sap="http://www.mulesoft.org/schema/mule/sap"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+	<data-mapper:config name="BAPI_MATERIAL_GETLIST_to_List_Material_"
+		transformationGraphPath="bapi_material_getlist_to_list_material_.grf"
+		doc:name="BAPI_MATERIAL_GETLIST_to_List_Material_" />
+	<data-mapper:config name="BAPI_MATERIAL_GET_DETAIL_to_Salesforce_Material"
+		transformationGraphPath="bapi_material_get_detail_to_salesforce_material.grf"
+		doc:name="BAPI_MATERIAL_GET_DETAIL_to_Salesforce_Material" />
+	<data-mapper:config name="Salesforce_Product_to_MATMAS01"
+		transformationGraphPath="salesforce_product_to_matmas01.grf" doc:name="Salesforce_Product_to_MATMAS01" />
+    <data-mapper:config name="BAPI_MATERIAL_GETINTNUMBER_to_MaterialNumber_Wrapper" transformationGraphPath="bapi_material_getintnumber_to_materialnumber_wrapper.grf" doc:name="BAPI_MATERIAL_GETINTNUMBER_to_MaterialNumber_Wrapper"/>
+	<batch:job name="fromSalesforceToSapBatch">
+		<batch:threading-profile poolExhaustedAction="WAIT" />
+		<batch:process-records>
+			<batch:step name="foreachProductInSalesforceGetMaterialInSapStep">
+				<enricher target="#[recordVars['materialInSap']]" doc:name="Store result in record var 'materialInSap'" source="#[payload.isEmpty() ? NullPayload.getInstance() : payload[0]]">
+					<processor-chain doc:name="Processor Chain">
+                        <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Material from SAP">
+                            <sap:definition><![CDATA[<jco>
+  	<import>
+  		<field name="I_MAT_ID">#[payload['ProductCode']]</field>
+	</import>
+</jco>
+]]></sap:definition>
+                        </sap:outbound-endpoint>
+                        <logger message="#[payload]" level="INFO" category="ZOCHAR" doc:name="Logger"/>
+                        <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
+					</processor-chain>
+				</enricher>
+                <logger message="SAP: #[recordVars['materialInSap']]; SFDC: #[payload]" level="INFO" category="SAMOPAL" doc:name="Logger"/>
+			</batch:step>
+			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (payload['LastModifiedDate'] &gt; recordVars['materialInSap']['LastModifiedDate'] &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
+                <expression-component doc:name="Prepare Material for Upsert"><![CDATA[if (recordVars['materialInSap'] is NullPayload) {
+	payload['MessageFunction'] = '009';
+	payload['MaterialNumber'] = payload['ProductCode'];
+} else {
+	payload['MessageFunction'] = '005';
+	payload['MaterialNumber'] = recordVars['materialInSap']['ProductCode'];
+}]]></expression-component>
+				<data-mapper:transform config-ref="Salesforce_Product_to_MATMAS01"
+					doc:name="Salesforce Product to MATMAS01" />
+				<sap:outbound-endpoint exchange-pattern="request-response"
+					connector-ref="SAP" type="idoc" functionName="MATMAS01"
+					xmlVersion="2" outputXml="true" evaluateFunctionResponse="true"
+					responseTimeout="10000" doc:name="Send IDoc to SAP" />
+				<logger message="Send IDoc SAP Response: #[payload]" level="INFO" 
+					doc:name="Log Response" />
+			</batch:step>
+		</batch:process-records>
+        <batch:on-complete>
+            <expression-component doc:name="Release Lock"><![CDATA[app.registry['PollSynchronizer'].unlock();]]></expression-component>
+        </batch:on-complete>
+	</batch:job>
+	<batch:job name="fromSapToSalesforceBatch">
+		<batch:threading-profile poolExhaustedAction="WAIT" />
+		<batch:process-records>
+			<batch:step name="foreachMaterialInSapGetProductInSalesforceStep">
+				<enricher target="#[recordVars['productInSalesforce']]"
+					doc:name="Store result in record var 'productInSalesforce'">
+					<sfdc:query-single config-ref="Salesforce"
+						query="SELECT Id, LastModifiedDate, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'"
+						doc:name="Query Product from Salesforce" />
+				</enricher>
+                <logger message="#[payload] VS #[recordVars['productInSalesforce']] XXX #[recordVars['productInSalesforce'] is NullPayload || payload['LastModifiedDate'] &gt; recordVars['productInSalesforce']['LastModifiedDate'] &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))]" level="INFO" category="SLNKO" doc:name="Logger"/>
+			</batch:step>
+			<batch:step name="foreachMaterialInSapUpsertProductInSalesforceStep" accept-expression="recordVars['productInSalesforce'] is NullPayload || payload['LastModifiedDate'] &gt; recordVars['productInSalesforce']['LastModifiedDate'] &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))">
+                <expression-component doc:name="Prepare Product for Upsert"><![CDATA[if (!(recordVars['productInSalesforce'] is NullPayload)) {
+	payload['Id'] = recordVars['productInSalesforce']['Id'];
+}
+
+payload.keySet().retainAll(['Id', 'ProductCode', 'Name']);]]></expression-component>
+                <logger message="#[payload]" level="INFO" category="SAFKO" doc:name="Logger"/>
+				<batch:commit doc:name="Batch Commit" size="200">
+					<sfdc:upsert config-ref="Salesforce"
+						externalIdFieldName="Id" type="Product2" doc:name="Salesforce">
+						<sfdc:objects ref="#[payload]" />
+					</sfdc:upsert>
+					<logger message="Upsert Salesforce Response: #[payload]"
+						level="INFO" doc:name="Log Response" />
+				</batch:commit>
+			</batch:step>
+		</batch:process-records>
+        <batch:on-complete>
+            <expression-component doc:name="Release Lock"><![CDATA[app.registry['PollSynchronizer'].unlock();]]></expression-component>
+        </batch:on-complete>
+	</batch:job>
+</mule>

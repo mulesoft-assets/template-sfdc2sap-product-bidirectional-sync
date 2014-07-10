@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      version="EE-3.5.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <data-mapper:config name="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" transformationGraphPath="zmule_material_getlist_to_salesforce_materials.grf" doc:name="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials"/>
+
+	<!-- 	In this file you should declare all your inbound endpoints and from here controll the access to your application -->
+
+	<flow name="fromSalesforceToSapFlow"  doc:name="fromSalesforceToSapFlow" initialState="stopped" processingStrategy="synchronous">
+        <poll doc:name="Fireup Product Synchronization">
+            <fixed-frequency-scheduler frequency="${polling.frequency}"/>
+            <watermark variable="salesforceLastQueryDate" default-expression="${watermark.default.expression}" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
+            <processor-chain doc:name="Processor Chain">
+                <expression-component doc:name="Acquire Lock"><![CDATA[app.registry['PollSynchronizer'].lock();]]></expression-component>
+                <sfdc:query config-ref="Salesforce" query="SELECT Id, Description, Name, LastModifiedById, LastModifiedDate, ProductCode FROM Product2 WHERE LastModifiedDate &gt; #[flowVars['salesforceLastQueryDate']] ORDER BY LastModifiedDate ASC LIMIT 200" doc:name="Quey Accounts from Salesforce" fetchSize="${page.size}"/>
+            </processor-chain>
+        </poll>
+        <batch:execute name="fromSalesforceToSapBatch" doc:name="Trigger fromSlesforceToSapBatch"/>
+        <exception-strategy ref="defaultChoiceExceptionStrategy" doc:name="Catch Exception and call defaultChoiceExceptionStrategy"/>
+    </flow>
+    <flow name="fromSapToSalesforceFlow" doc:name="fromSapToSalesforceFlow" initialState="started" processingStrategy="synchronous">
+        <poll doc:name="Fireup Material Synchronization">
+            <fixed-frequency-scheduler frequency="${polling.frequency}" />
+            <watermark variable="sapLastQueryDate" default-expression="${watermark.default.expression}" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
+            <processor-chain doc:name="Processor Chain">
+                <expression-component doc:name="Acquire Lock"><![CDATA[app.registry['PollSynchronizer'].lock();]]></expression-component>
+                <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Accounts from SAP">
+                    <sap:definition><![CDATA[<jco>
+  	<import>
+  		<field name="I_FROM_DATE">#[flowVars['sapLastQueryDate']]</field>
+	</import>
+</jco>
+]]></sap:definition>
+                </sap:outbound-endpoint>
+                <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
+            </processor-chain>
+        </poll>
+        <logger message="#[payload]" level="INFO" category="TEST1" doc:name="Logger"/>
+        <batch:execute name="fromSapToSalesforceBatch" doc:name="Trigger fromSapToSalesforceBatch"/>
+        <exception-strategy ref="defaultChoiceExceptionStrategy" doc:name="Catch Exception and call defaultChoiceExceptionStrategy"/>
+    </flow>
+</mule>
