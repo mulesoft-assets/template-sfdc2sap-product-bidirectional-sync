@@ -26,18 +26,14 @@ public class PollSynchronizer {
 
 	public void lock() {
 		try {
-			LOGGER.info("Locking thread: " + Thread.currentThread().getName());
 			getLock().acquire();
-			LOGGER.info("Locked thread: " + Thread.currentThread().getName());
 		} catch (InterruptedException e) {
 			LOGGER.error(e.getCause(), e);
 		}
 	}
 	
 	public void unlock() {
-		LOGGER.info("Unlocking thread: " + Thread.currentThread().getName());
 		getLock().release();
-		LOGGER.info("Unlocked thread: " + Thread.currentThread().getName());
 	}
 
 	protected Semaphore getLock() {
