@@ -1,11 +1,15 @@
 package org.mule.templates.integration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jetel.component.fileoperation.result.CreateResult;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +19,8 @@ import org.junit.Test;
 import org.mule.MessageExchangePattern;
 import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
+import org.mule.api.schedule.Scheduler;
+import org.mule.api.schedule.Schedulers;
 import org.mule.construct.Flow;
 import org.mule.templates.AbstractTemplatesTestCase;
 import org.mule.transport.NullPayload;
@@ -49,14 +55,9 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 
 	@BeforeClass
 	public static void beforeTestClass() {
-//		System.setProperty("page.size", "1000");
-//
-//		// Set polling frequency to 10 seconds
-//		System.setProperty("polling.frequency", "10000");
-//
-//		// Set default water-mark expression to current time
-//		System.setProperty("watermark.default.expression.sfdc", "2014-07-08T09:22:00.000Z");
-//		System.setProperty("watermark.default.expression.sap", "2014-07-08T09:22:00.000Z");
+		// Set default water-mark expression to current time
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(DateTimeZone.UTC);
+		System.setProperty("watermark.default.expression", formatter.print(System.currentTimeMillis() - 60000)); // one minute ago
 	}
 
 	@Before
@@ -115,21 +116,21 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 		deleteProductFromSapFlow.process(getTestEvent(idList, MessageExchangePattern.REQUEST_RESPONSE));
 	}
 
-//	@Test
-//	public void testSalesforceToSapUpdate()
-//			throws MuleException, Exception {
-//
-//		final HashMap<String, Object> product = createTestProducts(false);
-//
-//		Thread.sleep(20000); // wait until IDocs are applied in SAP
-//
-//		// Execution
-//		executeWaitAndAssertBatchJob(SFDC2SAP_INBOUND_FLOW_NAME);
-//
-//		Thread.sleep(20000); // wait until IDocs are applied in SAP
-//
-//		compareProducts(product);
-//	}
+	@Test
+	public void testSalesforceToSapUpdate()
+			throws MuleException, Exception {
+
+		final HashMap<String, Object> product = createTestProducts(false);
+
+		Thread.sleep(20000); // wait until IDocs are applied in SAP
+
+		// Execution
+		executeWaitAndAssertBatchJob(SFDC2SAP_INBOUND_FLOW_NAME);
+
+		Thread.sleep(20000); // wait until IDocs are applied in SAP
+
+		compareProducts(product);
+	}
 
 	@Test
 	public void testSapToSalesforceUpdate()
@@ -162,10 +163,11 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 		// note that product in target instance doesn't need to exist - other tests could test that too
 		if (sfdcFirst) {
 			productsCreatedInSalesforce.add(createTestProductsInSalesforceSandbox(salesforceProduct, createProductInSalesforceFlow));
+			Thread.sleep(60000); // to have different time
 		}
-		Thread.sleep(64000); // to have different time
 		productsCreatedInSap.add(createTestProductsInSapSandbox(sapProduct, createProductInSapFlow));
 		if (!sfdcFirst) {
+			Thread.sleep(60000); // to have different time
 			productsCreatedInSalesforce.add(createTestProductsInSalesforceSandbox(salesforceProduct, createProductInSalesforceFlow));
 		}
 		return product;
@@ -205,8 +207,7 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 		List<Map<String, Object>> salesforceProducts = new ArrayList<Map<String, Object>>();
 		salesforceProducts.add(product);
 
-		final List<?> payloadAfterExecution = (List<?>) createProductFlow.process(
-						getTestEvent(salesforceProducts, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
+		createProductFlow.process(getTestEvent(salesforceProducts, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
 		return (String) product.get("ProductCode"); // ((CreateResult) payloadAfterExecution.get(0)).getCreatedObjects().get(0);
 	}
 

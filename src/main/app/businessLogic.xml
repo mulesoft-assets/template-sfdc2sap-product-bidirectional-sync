@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 					</processor-chain>
 				</enricher>
 			</batch:step>
-			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (payload['LastModifiedDate'] &gt; recordVars['materialInSap']['LastModifiedDate'] &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
+			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (org.mule.templates.util.DateUtils.isAfter(payload['LastModifiedDate'], recordVars['materialInSap']['LastModifiedDate'], -(${timeOffsetBetweenSapAndSalesforce})) &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
                 <expression-component doc:name="Prepare Material for Upsert"><![CDATA[if (recordVars['materialInSap'] is NullPayload) {
 	payload['MessageFunction'] = '009';
 	payload['MaterialNumber'] = payload['ProductCode'];
@@ -74,7 +74,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 						doc:name="Query Product from Salesforce" />
 				</enricher>
 			</batch:step>
-			<batch:step name="foreachMaterialInSapUpsertProductInSalesforceStep" accept-expression="recordVars['productInSalesforce'] is NullPayload || payload['LastModifiedDate'] &gt; recordVars['productInSalesforce']['LastModifiedDate'] &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))">
+			<batch:step name="foreachMaterialInSapUpsertProductInSalesforceStep" accept-expression="recordVars['productInSalesforce'] is NullPayload || org.mule.templates.util.DateUtils.isAfter(payload['LastModifiedDate'], recordVars['productInSalesforce']['LastModifiedDate'], ${timeOffsetBetweenSapAndSalesforce}) &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))">
                 <expression-component doc:name="Prepare Product for Upsert"><![CDATA[if (!(recordVars['productInSalesforce'] is NullPayload)) {
 	payload['Id'] = recordVars['productInSalesforce']['Id'];
 }

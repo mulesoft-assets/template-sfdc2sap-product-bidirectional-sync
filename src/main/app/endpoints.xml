@@ -17,9 +17,9 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 
 	<!-- 	In this file you should declare all your inbound endpoints and from here controll the access to your application -->
 
-	<flow name="fromSalesforceToSapFlow"  doc:name="fromSalesforceToSapFlow" initialState="stopped" processingStrategy="synchronous">
+	<flow name="fromSalesforceToSapFlow"  doc:name="fromSalesforceToSapFlow" initialState="started" processingStrategy="synchronous">
         <poll doc:name="Fireup Product Synchronization">
-            <fixed-frequency-scheduler frequency="${polling.frequency}"/>
+            <fixed-frequency-scheduler frequency="${polling.frequency}" startDelay="${polling.start.delay}"/>
             <watermark variable="salesforceLastQueryDate" default-expression="${watermark.default.expression}" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
             <processor-chain doc:name="Processor Chain">
                 <expression-component doc:name="Acquire Lock"><![CDATA[app.registry['PollSynchronizer'].lock();]]></expression-component>
@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
     </flow>
     <flow name="fromSapToSalesforceFlow" doc:name="fromSapToSalesforceFlow" initialState="started" processingStrategy="synchronous">
         <poll doc:name="Fireup Material Synchronization">
-            <fixed-frequency-scheduler frequency="${polling.frequency}" />
+            <fixed-frequency-scheduler frequency="${polling.frequency}" startDelay="${polling.start.delay}"/>
             <watermark variable="sapLastQueryDate" default-expression="${watermark.default.expression}" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
             <processor-chain doc:name="Processor Chain">
                 <expression-component doc:name="Acquire Lock"><![CDATA[app.registry['PollSynchronizer'].lock();]]></expression-component>
