@@ -46,7 +46,7 @@ For instance if 10 records are fetched from origin instance, then 12 API calls w
 + polling.start.delay `5000`
 + watermark.default.expression `2014-06-26T12:30:00.000Z`
 + page.size `100`
-		
+
 **SalesForce Connector configuration**
 
 + sfdc.username `bob.dylan@sfdc`
@@ -63,6 +63,13 @@ For instance if 10 records are fetched from origin instance, then 12 API calls w
 + sap.jco.sysnr `14`
 + sap.jco.client `800`
 + sap.jco.lang `EN`
+
+**SAP Material properties configuration**
+
++ sap.material.type `ZHTI`
++ sap.material.industrySector `T`
++ sap.material.baseUnitOfMeasurement `KGS`
+
 ]]>
 		</section>
 	</sections>

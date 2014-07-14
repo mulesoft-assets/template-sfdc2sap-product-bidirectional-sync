@@ -138,11 +138,11 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 
 		final HashMap<String, Object> product = createTestProducts(true);
 
-		Thread.sleep(10000); // wait until IDocs are applied in SAP
+//		Thread.sleep(10000); // wait until IDocs are applied in SAP
 		// Execution
 		executeWaitAndAssertBatchJob(SAP2SFDC_INBOUND_FLOW_NAME);
 
-		Thread.sleep(10000); // wait until IDocs are applied in SAP
+//		Thread.sleep(10000); // wait until IDocs are applied in SAP
 
 		compareProducts(product);
 	}
@@ -163,11 +163,11 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 		// note that product in target instance doesn't need to exist - other tests could test that too
 		if (sfdcFirst) {
 			productsCreatedInSalesforce.add(createTestProductsInSalesforceSandbox(salesforceProduct, createProductInSalesforceFlow));
-			Thread.sleep(60000); // to have different time
+			Thread.sleep(30000); // to have different time
 		}
 		productsCreatedInSap.add(createTestProductsInSapSandbox(sapProduct, createProductInSapFlow));
 		if (!sfdcFirst) {
-			Thread.sleep(60000); // to have different time
+			Thread.sleep(30000); // to have different time
 			productsCreatedInSalesforce.add(createTestProductsInSalesforceSandbox(salesforceProduct, createProductInSalesforceFlow));
 		}
 		return product;

@@ -20,8 +20,6 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 	<data-mapper:config name="BAPI_MATERIAL_GET_DETAIL_to_Salesforce_Material"
 		transformationGraphPath="bapi_material_get_detail_to_salesforce_material.grf"
 		doc:name="BAPI_MATERIAL_GET_DETAIL_to_Salesforce_Material" />
-	<data-mapper:config name="Salesforce_Product_to_MATMAS01"
-		transformationGraphPath="salesforce_product_to_matmas01.grf" doc:name="Salesforce_Product_to_MATMAS01" />
     <data-mapper:config name="BAPI_MATERIAL_GETINTNUMBER_to_MaterialNumber_Wrapper" transformationGraphPath="bapi_material_getintnumber_to_materialnumber_wrapper.grf" doc:name="BAPI_MATERIAL_GETINTNUMBER_to_MaterialNumber_Wrapper"/>
 	<batch:job name="fromSalesforceToSapBatch">
 		<batch:threading-profile poolExhaustedAction="WAIT" />
@@ -43,18 +41,43 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 			</batch:step>
 			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (org.mule.templates.util.DateUtils.isAfter(payload['LastModifiedDate'], recordVars['materialInSap']['LastModifiedDate'], -(${timeOffsetBetweenSapAndSalesforce})) &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
                 <expression-component doc:name="Prepare Material for Upsert"><![CDATA[if (recordVars['materialInSap'] is NullPayload) {
-	payload['MessageFunction'] = '009';
 	payload['MaterialNumber'] = payload['ProductCode'];
+	payload['BaseUnitOfMeasureX'] = 'X';
 } else {
-	payload['MessageFunction'] = '005';
 	payload['MaterialNumber'] = recordVars['materialInSap']['ProductCode'];
+	payload['BaseUnitOfMeasureX'] = '';
 }]]></expression-component>
-				<data-mapper:transform config-ref="Salesforce_Product_to_MATMAS01"
-					doc:name="Salesforce Product to MATMAS01" />
 				<sap:outbound-endpoint exchange-pattern="request-response"
-					connector-ref="SAP" type="idoc" functionName="MATMAS01"
+					connector-ref="SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA"
 					xmlVersion="2" outputXml="true" evaluateFunctionResponse="true"
-					responseTimeout="10000" doc:name="Send IDoc to SAP" />
+					responseTimeout="10000" doc:name="Upsert Material" >
+                    <sap:definition><![CDATA[<jco>
+  	<import>
+	  	<structure name="HEADDATA">
+	  		<field name="MATERIAL">#[payload['MaterialNumber']]</field>
+	  		<field name="MATL_TYPE">${sap.material.type}</field>
+	  		<field name="IND_SECTOR">${sap.material.industrySector}</field>
+	  		<field name="BASIC_VIEW">X</field>
+	  	</structure>
+	  	<structure name="CLIENTDATA">
+	  		<field name="BASE_UOM">${sap.material.baseUnitOfMeasurement}</field>
+	  	</structure>
+	  	<structure name="CLIENTDATAX">
+	  		<field name="BASE_UOM">#[payload['BaseUnitOfMeasureX']]</field>
+	  	</structure>
+	</import>
+  	<tables>
+	  	<table name="MATERIALDESCRIPTION">
+	  		<row id="0">
+	  			<field name="LANGU">E</field>
+  				<field name="LANGU_ISO">EN</field>
+  				<field name="MATL_DESC">#[payload['Name']]</field>
+  			</row>
+	  	</table>
+	</tables>
+</jco>
+]]></sap:definition>
+                </sap:outbound-endpoint>
 				<logger message="Send IDoc SAP Response: #[payload]" level="INFO" 
 					doc:name="Log Response" />
 			</batch:step>

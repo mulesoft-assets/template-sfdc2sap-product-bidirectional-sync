@@ -33,17 +33,40 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     </flow>
     <flow name="createProductsInSapFlow" doc:name="createProductsInSapFlow">
         <collection-splitter doc:name="Collection Splitter"/>
-        <processor-chain doc:name="Processor Chain">
-            <expression-component doc:name="Prepare for Creation"><![CDATA[payload['MessageFunction'] = '009';
-payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
-            <data-mapper:transform config-ref="Salesforce_Product_to_MATMAS01" doc:name="Salesforce Product to MATMAS01"/>
-            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="idoc" functionName="MATMAS01" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Send IDoc to SAP"/>
-        </processor-chain>
+        <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Upsert Material to SAP">
+            <sap:definition><![CDATA[<jco>
+  	<import>
+	  	<structure name="HEADDATA">
+	  		<field name="MATERIAL">#[payload['ProductCode']]</field>
+	  		<field name="MATL_TYPE">${sap.material.type}</field>
+	  		<field name="IND_SECTOR">${sap.material.industrySector}</field>
+	  		<field name="BASIC_VIEW">X</field>
+	  	</structure>
+	  	<structure name="CLIENTDATA">
+	  		<field name="BASE_UOM">${sap.material.baseUnitOfMeasurement}</field>
+	  	</structure>
+	  	<structure name="CLIENTDATAX">
+	  		<field name="SIZE_DIM">X</field>
+	  		<field name="BASE_UOM">X</field>
+	  	</structure>
+	</import>
+  	<tables>
+	  	<table name="MATERIALDESCRIPTION">
+	  		<row id="0">
+	  			<field name="LANGU">E</field>
+  				<field name="LANGU_ISO">EN</field>
+  				<field name="MATL_DESC">#[payload['Name']]</field>
+  			</row>
+	  	</table>
+	</tables>
+</jco>
+]]></sap:definition>
+        </sap:outbound-endpoint>
         <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
         <logger level="INFO" message="Create Test Products in SAP result: #[payload]" doc:name="Logger"/>
     </flow>
     <flow name="queryProductFromSalesforceFlow" doc:name="queryProductFromSalesforceFlow">
-        <sfdc:query-single config-ref="Test_Salesforce" query="SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'" doc:name="Salesforce"/>
+        <sfdc:query-single config-ref="Test_Salesforce" query="SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'" doc:name="Query Product from Salesforce"/>
         <logger level="INFO" message="Retrieve Products from Salesforce result: #[payload]" doc:name="Logger"/>
     </flow>
     <flow name="queryProductFromSapFlow" doc:name="queryProductFromSapFlow">
@@ -64,7 +87,7 @@ payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
     </flow>
     <flow name="deleteProductsFromSapFlow" doc:name="deleteProductsFromSapFlow">
         <foreach doc:name="For Each">
-            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="SAP" functionName="BAPI_MATERIAL_SAVEDATA">
+            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Delete Material from SAP" functionName="BAPI_MATERIAL_SAVEDATA">
                 <sap:definition><![CDATA[<jco>
   	<import>
 	  	<structure name="HEADDATA">
@@ -84,7 +107,7 @@ payload['MaterialNumber'] = payload['ProductCode'];]]></expression-component>
         </foreach>
     </flow>
     <flow name="deleteProductsFromSalesforceFlow" doc:name="deleteProductsFromSalesforceFlow">
-        <sfdc:delete config-ref="Test_Salesforce" doc:name="Salesforce"/>
+        <sfdc:delete config-ref="Test_Salesforce" doc:name="Delete Product from Salesforce"/>
         <logger message="Remove Products from Salesforce result: #[payload]" level="INFO" doc:name="Logger"/>
     </flow>
 

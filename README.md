@@ -172,6 +172,12 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 + sap.jco.client `800`
 + sap.jco.lang `EN`
 
+**SAP Material properties configuration**
+
++ sap.material.type `ZHTI`
++ sap.material.industrySector `T`
++ sap.material.baseUnitOfMeasurement `KGS`
+
 # API Calls <a name="apicalls"/>
 Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The Anypoint Template calls to the API can be calculated using the formula:
 
