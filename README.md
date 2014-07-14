@@ -41,7 +41,17 @@ This Anypoint Template should serve as a foundation for setting an online bi-dir
 
 # Considerations <a name="considerations"/>
 
- 
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
+**Failling to do so could lead to unexpected behavior of the template.**
+
+Template uses custom BAPI function. To create them please use following steps:
+
+1. Create structure ZMULE_S_MARA in transaction SE11 as per its definition in file structure_ZMULE_S_MARA.abap
+2. Create table type ZMULE_TT_MARA in transaction SE11 as per its definition in file table_type_ZMULE_TT_MARA.abap
+3. Create message class called ZMULESOFTINTEGRATION in transaction SE91 as per definition in file msg_class_ZMULESOFTINTEGRATION.abap
+4. Create function module ZMULE_MATERIAL_GETLIST in transaction SE37 as per source file ZMULE_MATERIAL_GETLIST.abap
+
+Referenced files are in directory "sap".
 
 
 ## SAP Considerations <a name="sapconsiderations"/>
@@ -154,7 +164,7 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 + polling.start.delay `5000`
 + watermark.default.expression `2014-06-26T12:30:00.000Z`
 + page.size `100`
-		
+
 **SalesForce Connector configuration**
 
 + sfdc.username `bob.dylan@sfdc`

@@ -26,7 +26,19 @@ Please check this Documentation Page:
 + [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
 		]]>
 		</section>
-		<section id="considerations">&#160;</section>
+		<section id="considerations">
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
+**Failling to do so could lead to unexpected behavior of the template.**
+
+Template uses custom BAPI function. To create them please use following steps:
+
+1. Create structure ZMULE_S_MARA in transaction SE11 as per its definition in file structure_ZMULE_S_MARA.abap
+2. Create table type ZMULE_TT_MARA in transaction SE11 as per its definition in file table_type_ZMULE_TT_MARA.abap
+3. Create message class called ZMULESOFTINTEGRATION in transaction SE91 as per definition in file msg_class_ZMULESOFTINTEGRATION.abap
+4. Create function module ZMULE_MATERIAL_GETLIST in transaction SE37 as per source file ZMULE_MATERIAL_GETLIST.abap
+
+Referenced files are in directory "sap".
+		</section>
 		<section id="api_calls">
 Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The Anypoint Template calls to the API can be calculated using the formula:
 
