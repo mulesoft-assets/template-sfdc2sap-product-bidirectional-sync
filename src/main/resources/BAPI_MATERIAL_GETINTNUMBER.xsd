@@ -1,93 +1,242 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0">
-<xsd:element name="BAPI_MATERIAL_GETINTNUMBER">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element name="import" minOccurs="0" maxOccurs="1">
-<xsd:complexType>
-<xsd:all>
-<xsd:element name="INDUSTRY_SECTOR" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Industry sector</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MATERIAL_TYPE" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Material type</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="REQUIRED_NUMBERS" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Set of material numbers required</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element></xsd:all></xsd:complexType></xsd:element>
-<xsd:element name="export" minOccurs="0" maxOccurs="1">
-<xsd:complexType>
-<xsd:all>
-<xsd:element name="RETURN" minOccurs="0" maxOccurs="1">
-<xsd:complexType>
-<xsd:all>
-<xsd:element name="TYPE" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message type: S Success, E Error, W Warning, I Info, A Abort</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="ID" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Class</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="NUMBER" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Number</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MESSAGE" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Text</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="LOG_NO" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Application log: log number</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="LOG_MSG_NO" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Application log: Internal message serial number</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MESSAGE_V1" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Variable</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MESSAGE_V2" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Variable</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MESSAGE_V3" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Variable</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MESSAGE_V4" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Message Variable</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element></xsd:all></xsd:complexType></xsd:element></xsd:all></xsd:complexType></xsd:element>
-<xsd:element name="tables" minOccurs="0" maxOccurs="1">
-<xsd:complexType>
-<xsd:all>
-<xsd:element name="MATERIAL_NUMBER" minOccurs="0" maxOccurs="1">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element name="row" minOccurs="0" maxOccurs="unbounded">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element name="MATERIAL" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Material Number</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MATERIAL_EXTERNAL" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Long Material Number for MATERIAL Field</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MATERIAL_GUID" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>External GUID for MATERIAL Field</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element>
-<xsd:element name="MATERIAL_VERSION" minOccurs="0" maxOccurs="1"><xsd:annotation><xsd:documentation>Version Number for MATERIAL Field</xsd:documentation></xsd:annotation>
-<xsd:complexType>
-<xsd:simpleContent>
-<xsd:extension base="xsd:string"/></xsd:simpleContent></xsd:complexType></xsd:element></xsd:sequence>
-<xsd:attribute name="id" type="xsd:integer" use="required"/></xsd:complexType></xsd:element></xsd:sequence></xsd:complexType></xsd:element></xsd:all></xsd:complexType></xsd:element></xsd:sequence></xsd:complexType></xsd:element>
+<!--
+Mule Anypoint Template
+
+Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	version="1.0">
+	<xsd:element name="BAPI_MATERIAL_GETINTNUMBER">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="import" minOccurs="0" maxOccurs="1">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="INDUSTRY_SECTOR" minOccurs="0"
+								maxOccurs="1">
+								<xsd:annotation>
+									<xsd:documentation>Industry sector</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string" />
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="MATERIAL_TYPE" minOccurs="0"
+								maxOccurs="1">
+								<xsd:annotation>
+									<xsd:documentation>Material type</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string" />
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="REQUIRED_NUMBERS" minOccurs="0"
+								maxOccurs="1">
+								<xsd:annotation>
+									<xsd:documentation>Set of material numbers required</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string" />
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="export" minOccurs="0" maxOccurs="1">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="RETURN" minOccurs="0" maxOccurs="1">
+								<xsd:complexType>
+									<xsd:all>
+										<xsd:element name="TYPE" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message type: S Success, E Error, W
+													Warning, I Info, A Abort</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="ID" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Class</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="NUMBER" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Number</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MESSAGE" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Text</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="LOG_NO" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Application log: log number</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="LOG_MSG_NO" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Application log: Internal message serial
+													number</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MESSAGE_V1" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Variable</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MESSAGE_V2" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Variable</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MESSAGE_V3" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Variable</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MESSAGE_V4" minOccurs="0"
+											maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation>Message Variable</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string" />
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="tables" minOccurs="0" maxOccurs="1">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="MATERIAL_NUMBER" minOccurs="0"
+								maxOccurs="1">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="row" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="MATERIAL" minOccurs="0"
+														maxOccurs="1">
+														<xsd:annotation>
+															<xsd:documentation>Material Number</xsd:documentation>
+														</xsd:annotation>
+														<xsd:complexType>
+															<xsd:simpleContent>
+																<xsd:extension base="xsd:string" />
+															</xsd:simpleContent>
+														</xsd:complexType>
+													</xsd:element>
+													<xsd:element name="MATERIAL_EXTERNAL"
+														minOccurs="0" maxOccurs="1">
+														<xsd:annotation>
+															<xsd:documentation>Long Material Number for MATERIAL
+																Field</xsd:documentation>
+														</xsd:annotation>
+														<xsd:complexType>
+															<xsd:simpleContent>
+																<xsd:extension base="xsd:string" />
+															</xsd:simpleContent>
+														</xsd:complexType>
+													</xsd:element>
+													<xsd:element name="MATERIAL_GUID" minOccurs="0"
+														maxOccurs="1">
+														<xsd:annotation>
+															<xsd:documentation>External GUID for MATERIAL Field</xsd:documentation>
+														</xsd:annotation>
+														<xsd:complexType>
+															<xsd:simpleContent>
+																<xsd:extension base="xsd:string" />
+															</xsd:simpleContent>
+														</xsd:complexType>
+													</xsd:element>
+													<xsd:element name="MATERIAL_VERSION" minOccurs="0"
+														maxOccurs="1">
+														<xsd:annotation>
+															<xsd:documentation>Version Number for MATERIAL Field</xsd:documentation>
+														</xsd:annotation>
+														<xsd:complexType>
+															<xsd:simpleContent>
+																<xsd:extension base="xsd:string" />
+															</xsd:simpleContent>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+												<xsd:attribute name="id" type="xsd:integer"
+													use="required" />
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
 </xsd:schema>
