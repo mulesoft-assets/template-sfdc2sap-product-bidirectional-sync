@@ -1,5 +1,5 @@
 
-# Anypoint Template: SFDC2SAP-product-material-bidirectional-sync
+# Anypoint Template: SFDC2SAP-product-bidirectional-sync
 
 + [License Agreement](#licenseagreement)
 + [Use Case](#usecase)
@@ -44,6 +44,7 @@ This Anypoint Template should serve as a foundation for setting an online bi-dir
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
 **Failling to do so could lead to unexpected behavior of the template.**
 
+### SAP Preconditions
 Template uses custom BAPI function. To create them please use following steps:
 
 1. Create structure ZMULE_S_MARA in transaction SE11 as per its definition in file structure_ZMULE_S_MARA.abap
@@ -51,7 +52,7 @@ Template uses custom BAPI function. To create them please use following steps:
 3. Create message class called ZMULESOFTINTEGRATION in transaction SE91 as per definition in file msg_class_ZMULESOFTINTEGRATION.abap
 4. Create function module ZMULE_MATERIAL_GETLIST in transaction SE37 as per source file ZMULE_MATERIAL_GETLIST.abap
 
-Referenced files are in directory "sap".
+Referenced files are in [src/main/resources] directory.
 
 
 ## SAP Considerations <a name="sapconsiderations"/>
@@ -105,7 +106,7 @@ column='486'
 
 
 # Run it! <a name="runit"/>
-Simple steps to get SFDC2SAP-product-material-bidirectional-sync running.
+Simple steps to get SFDC2SAP-product-bidirectional-sync running.
 
 
 ## Running on premise <a name="runonopremise"/>

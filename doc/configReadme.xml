@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 	<placeholders>
-		<placeholder id="template_name">SFDC2SAP-product-material-bidirectional-sync</placeholder>
+		<placeholder id="template_name">SFDC2SAP-product-bidirectional-sync</placeholder>
 	</placeholders>
 	<sections>
 		<section id="use_case">
@@ -30,6 +30,7 @@ Please check this Documentation Page:
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
 **Failling to do so could lead to unexpected behavior of the template.**
 
+### SAP Preconditions
 Template uses custom BAPI function. To create them please use following steps:
 
 1. Create structure ZMULE_S_MARA in transaction SE11 as per its definition in file structure_ZMULE_S_MARA.abap
@@ -37,7 +38,7 @@ Template uses custom BAPI function. To create them please use following steps:
 3. Create message class called ZMULESOFTINTEGRATION in transaction SE91 as per definition in file msg_class_ZMULESOFTINTEGRATION.abap
 4. Create function module ZMULE_MATERIAL_GETLIST in transaction SE37 as per source file ZMULE_MATERIAL_GETLIST.abap
 
-Referenced files are in directory "sap".
+Referenced files are in [src/main/resources] directory.
 		</section>
 		<section id="api_calls">
 Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The Anypoint Template calls to the API can be calculated using the formula:
