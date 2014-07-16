@@ -44,7 +44,38 @@ This Anypoint Template should serve as a foundation for setting an online bi-dir
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
 **Failling to do so could lead to unexpected behavior of the template.**
 
-### SAP Preconditions
+Before continue with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
+with SAP and Anypoint Studio.
+
+## Disclaimer
+
+This Anypoint template uses a few private Maven dependencies in oder to work. If you intend to run this template with Maven support, please continue reading.
+
+You will find that there are three dependencies in the pom.xml file that begin with the following group id: 
+	**com.sap.conn.jco** 
+These dependencies are private for Mulesoft and will cause you application not to build from a Maven command line. You need to replace them with "provided" scope and copy the libraries into the build path.
+
+
+## SAP Considerations <a name="sapconsiderations"/>
+
+There may be a few things that you need to know regarding SAP, in order for this template to work.
+
+### As source of data
+
+In order for this Anypoint Template to work, there are a few things that needs to be done in SAP first.
+
+1. RFC destination
+RFC destination of type "TCP/IP Connection" pointing to program ID on gateway needs to be created. The destination uses Unicode communication type with target system.
+
+2. Program ID registration
+RFC SDK is used to register program ID on gateway. Same program ID name is used here as in the RFC destination.
+
+3. Partner port
+Partner port needs to be defined type of Idoc of SAP release 4.x as its version. As RFC destination same RFC destination created earlier is used.
+
+
+### As destination of data
+
 Template uses custom BAPI function. To create them please use following steps:
 
 1. Create structure ZMULE_S_MARA in transaction SE11 as per its definition in file structure_ZMULE_S_MARA.abap
@@ -53,16 +84,6 @@ Template uses custom BAPI function. To create them please use following steps:
 4. Create function module ZMULE_MATERIAL_GETLIST in transaction SE37 as per source file ZMULE_MATERIAL_GETLIST.abap
 
 Referenced files are in [src/main/resources] directory.
-
-
-## SAP Considerations <a name="sapconsiderations"/>
-
-There may be a few things that you need to know regarding SAP, in order for this template to work.
-
-
-### As destination of data
-
-There are no particular considerations for this Anypoint Template regarding Sap as data destination.
 ## Salesforce Considerations <a name="salesforceconsiderations"/>
 
 There may be a few things that you need to know regarding Salesforce, in order for this template to work.
@@ -101,7 +122,9 @@ column='486'
 ]
 ```
 
+### As destination of data
 
+There are no particular considerations for this Anypoint Template regarding Siebel as data destination.
 
 
 
