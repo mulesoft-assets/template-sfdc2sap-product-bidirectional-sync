@@ -120,12 +120,8 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 
 		final HashMap<String, Object> product = createTestProducts(false);
 
-		Thread.sleep(20000); // wait until IDocs are applied in SAP
-
 		// Execution
 		executeWaitAndAssertBatchJob(SFDC2SAP_INBOUND_FLOW_NAME);
-
-		Thread.sleep(20000); // wait until IDocs are applied in SAP
 
 		compareProducts(product);
 	}
@@ -136,11 +132,8 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 
 		final HashMap<String, Object> product = createTestProducts(true);
 
-//		Thread.sleep(10000); // wait until IDocs are applied in SAP
 		// Execution
 		executeWaitAndAssertBatchJob(SAP2SFDC_INBOUND_FLOW_NAME);
-
-//		Thread.sleep(10000); // wait until IDocs are applied in SAP
 
 		compareProducts(product);
 	}
