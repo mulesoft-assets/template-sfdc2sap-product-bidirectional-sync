@@ -5,7 +5,7 @@
 	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sap="http://www.mulesoft.org/schema/mule/sap"
 	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -38,6 +38,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
                         <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
 					</processor-chain>
 				</enricher>
+                <logger message="#[recordVars['materialInSap']] is NullPayload || (org.mule.templates.util.DateUtils.isAfter(#[payload['LastModifiedDate']], #[recordVars['materialInSap']['LastModifiedDate']], #[1-(${timeOffsetBetweenSapAndSalesforce})]) &amp;&amp; '${sfdc.integration.user.id}' != #[payload['LastModifiedById']])" level="INFO" category="POLULU-A" doc:name="Copy_of_Logger"/>
 			</batch:step>
 			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars['materialInSap'] is NullPayload || (org.mule.templates.util.DateUtils.isAfter(payload['LastModifiedDate'], recordVars['materialInSap']['LastModifiedDate'], -(${timeOffsetBetweenSapAndSalesforce})) &amp;&amp; '${sfdc.integration.user.id}' != payload['LastModifiedById'])">
                 <expression-component doc:name="Prepare Material for Upsert"><![CDATA[if (recordVars['materialInSap'] is NullPayload) {
@@ -78,7 +79,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 </jco>
 ]]></sap:definition>
                 </sap:outbound-endpoint>
-				<logger message="Send IDoc SAP Response: #[payload]" level="INFO" 
+				<logger message="Upsert SAP Response: #[payload]" level="INFO" 
 					doc:name="Log Response" />
 			</batch:step>
 		</batch:process-records>
@@ -96,6 +97,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 						query="SELECT Id, LastModifiedDate, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'"
 						doc:name="Query Product from Salesforce" />
 				</enricher>
+                <logger message="#[recordVars['productInSalesforce']] is NullPayload || org.mule.templates.util.DateUtils.isAfter(#[payload['LastModifiedDate']], #[recordVars['productInSalesforce']['LastModifiedDate']], ${timeOffsetBetweenSapAndSalesforce}) &amp;&amp; ('${sap.jco.user}' != (#[payload['LastModifiedById']] == null ? #[payload['CreatedById']] : #[payload['LastModifiedById']]))" level="INFO" category="POLULU-C" doc:name="Copy_of_Copy_of_Logger"/>
 			</batch:step>
 			<batch:step name="foreachMaterialInSapUpsertProductInSalesforceStep" accept-expression="recordVars['productInSalesforce'] is NullPayload || org.mule.templates.util.DateUtils.isAfter(payload['LastModifiedDate'], recordVars['productInSalesforce']['LastModifiedDate'], ${timeOffsetBetweenSapAndSalesforce}) &amp;&amp; ('${sap.jco.user}' != (payload['LastModifiedById'] == null ? payload['CreatedById'] : payload['LastModifiedById']))">
                 <expression-component doc:name="Prepare Product for Upsert"><![CDATA[if (!(recordVars['productInSalesforce'] is NullPayload)) {
