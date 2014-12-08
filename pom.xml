@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.mule.templates</groupId>
 		<artifactId>templates-tooling-parent-pom</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.8</version>
 	</parent>
 
 	<artifactId>template-sfdc2sap-product-bidirectional-sync</artifactId>
@@ -16,9 +16,8 @@
 
 	<properties>
 		<sfdc.version>5.4.7</sfdc.version>
-		<sap.transport.version>2.2.2</sap.transport.version>
-		<sap.jco.version>3.0.9</sap.jco.version>
-		<sap.idoc.version>3.0.6</sap.idoc.version>
+		<sap.jco.version>3.0.10</sap.jco.version>
+		<sap.idoc.version>3.0.10</sap.idoc.version>
 		<sap.build.type>linux64</sap.build.type>
 	</properties>
 
@@ -106,7 +105,7 @@
 		
 		<dependency>
 			<groupId>com.sap.conn.jco</groupId>
-			<artifactId>sapjco</artifactId>
+			<artifactId>sapjco3</artifactId>
 			<version>${sap.jco.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -119,7 +118,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sap.conn.idoc</groupId>
-			<artifactId>sapidoc</artifactId>
+			<artifactId>sapidoc3</artifactId>
 			<version>${sap.idoc.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -156,6 +155,12 @@
 			<id>mule-ee-dependencies</id>
 			<name>Mule EE Dependencies</name>
 			<url>http://repository-master.mulesoft.org/nexus/content/repositories/mule-ee-dependencies/</url>
+		</repository>
+		<repository>
+			<id>mule-ee-thirdparty</id>
+			<name>MuleSoft Thirdparty Repository</name>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/thirdparty/</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 	<scm>

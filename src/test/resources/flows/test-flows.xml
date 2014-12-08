@@ -3,7 +3,7 @@
 <mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:siebel="http://www.mulesoft.org/schema/mule/siebel" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -13,7 +13,6 @@ http://www.mulesoft.org/schema/mule/siebel http://www.mulesoft.org/schema/mule/s
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
-    <data-mapper:config name="salesforce_to_siebel" transformationGraphPath="map_salesforce_product_to_siebel.grf" doc:name="DataMapper"/>
     
     <sfdc:config name="Test_Salesforce" username="${test.sfdc.username}" password="${test.sfdc.password}" securityToken="${test.sfdc.securityToken}" url="${test.sfdc.url}" doc:name="Test Salesforce">
         <sfdc:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
@@ -34,33 +33,39 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     <flow name="createProductsInSapFlow" doc:name="createProductsInSapFlow">
         <collection-splitter doc:name="Collection Splitter"/>
         <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Upsert Material to SAP">
-            <sap:definition><![CDATA[<jco>
-  	<import>
-	  	<structure name="HEADDATA">
-	  		<field name="MATERIAL">#[payload['ProductCode']]</field>
-	  		<field name="MATL_TYPE">${sap.material.type}</field>
-	  		<field name="IND_SECTOR">${sap.material.industrySector}</field>
-	  		<field name="BASIC_VIEW">X</field>
-	  	</structure>
-	  	<structure name="CLIENTDATA">
-	  		<field name="BASE_UOM">${sap.material.baseUnitOfMeasurement}</field>
-	  	</structure>
-	  	<structure name="CLIENTDATAX">
-	  		<field name="SIZE_DIM">X</field>
-	  		<field name="BASE_UOM">X</field>
-	  	</structure>
+            <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
+	<import>
+			<HEADDATA>
+				<MATERIAL>#[payload['ProductCode']]</MATERIAL>
+				<MATL_TYPE>${sap.material.type}</MATL_TYPE>
+				<IND_SECTOR>${sap.material.industrySector}</IND_SECTOR>
+				<BASIC_VIEW>X</BASIC_VIEW>
+			</HEADDATA>
+			<CLIENTDATA>
+				<BASE_UOM>${sap.material.baseUnitOfMeasurement}</BASE_UOM>
+			</CLIENTDATA>
+			<CLIENTDATAX>
+				<SIZE_DIM>X</SIZE_DIM>
+				<BASE_UOM>X</BASE_UOM>
+			</CLIENTDATAX>
 	</import>
-  	<tables>
-	  	<table name="MATERIALDESCRIPTION">
-	  		<row id="0">
-	  			<field name="LANGU">E</field>
-  				<field name="LANGU_ISO">EN</field>
-  				<field name="MATL_DESC">#[payload['Name']]</field>
-  			</row>
-	  	</table>
-	</tables>
-</jco>
+	 <tables>
+		 <MATERIALDESCRIPTION type="table">
+		 	<table name="MATERIALDESCRIPTION">
+			   <row id="0">
+				   <LANGU>E</LANGU>
+				    <LANGU_ISO>EN</LANGU_ISO>
+				    <MATL_DESC>#[payload['Name']]</MATL_DESC>
+  				</row>
+		  </table>
+		</MATERIALDESCRIPTION>
+	 </tables>		
+</BAPI_MATERIAL_SAVEDATA>
+
+
+
 ]]></sap:definition>
+
         </sap:outbound-endpoint>
         <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
         <logger level="INFO" message="Create Test Products in SAP result: #[payload]" doc:name="Logger"/>
@@ -73,12 +78,13 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
         <enricher source="#[payload.isEmpty() ? NullPayload.getInstance() : payload[0]]" target="#[payload]" doc:name="Store result in record var 'materialInSap'">
             <processor-chain doc:name="Processor Chain">
                 <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Material from SAP">
-                    <sap:definition><![CDATA[<jco>
-  	<import>
-  		<field name="I_MAT_ID">#[payload['ProductCode']]</field>
+                    <sap:definition><![CDATA[<ZMULE_MATERIAL_GETLIST type="function">
+	<import>
+			<I_MAT_ID>#[payload['ProductCode']]</I_MAT_ID>
 	</import>
-</jco>
+</ZMULE_MATERIAL_GETLIST>
 ]]></sap:definition>
+
                 </sap:outbound-endpoint>
                 <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
             </processor-chain>
@@ -88,21 +94,22 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     <flow name="deleteProductsFromSapFlow" doc:name="deleteProductsFromSapFlow">
         <foreach doc:name="For Each">
             <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Delete Material from SAP" functionName="BAPI_MATERIAL_SAVEDATA">
-                <sap:definition><![CDATA[<jco>
-  	<import>
-	  	<structure name="HEADDATA">
-	  		<field name="MATERIAL">#[payload]</field>
-	  		<field name="BASIC_VIEW">X</field>
-	  	</structure>
-	  	<structure name="CLIENTDATA">
-	  		<field name="DEL_FLAG">X</field>
-	  	</structure>
-	  	<structure name="CLIENTDATAX">
-	  		<field name="DEL_FLAG">X</field>
-	  	</structure>
+                <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
+	<import>
+			<HEADDATA>
+				<MATERIAL>#[payload]</MATERIAL>
+				<BASIC_VIEW>X</BASIC_VIEW>
+			</HEADDATA>
+			<CLIENTDATA>
+				<DEL_FLAG>X</DEL_FLAG>
+			</CLIENTDATA>
+			<CLIENTDATAX>
+				<DEL_FLAG>X</DEL_FLAG>
+			</CLIENTDATAX>
 	</import>
-</jco>
+</BAPI_MATERIAL_SAVEDATA>
 ]]></sap:definition>
+
             </sap:outbound-endpoint>
         </foreach>
     </flow>
