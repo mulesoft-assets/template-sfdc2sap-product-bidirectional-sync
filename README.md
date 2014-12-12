@@ -27,17 +27,17 @@ Please review the terms of the license before downloading and using this templat
 
 # Use Case <a name="usecase"/>
 This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
-			Everytime there is a new product/material or a change in already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
-			
-			Requirements have been set not only to be used as examples, but also to establish a starting point to adapt your integration to your requirements.
-			
-			As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
-			The batch job is divided in Input, Process and On Complete stages.
-			The integration is triggered by poll to one of Salesforce Protucts or SAP Materials. New or modified products/materials are passed to the batch as input.
-			In the batch the customer is fetched from SAP by Material Number or from Salesforce by its Product Code.
-			Afterwards every such product/material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
-			
-			Both polls are executed mutually exclusively using shared lock.
+Everytime there is a new product/material or a change in already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
+
+Requirements have been set not only to be used as examples, but also to establish a starting point to adapt your integration to your requirements.
+
+As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+The batch job is divided in Input, Process and On Complete stages.
+The integration is triggered by poll to one of Salesforce Protucts or SAP Materials. New or modified products/materials are passed to the batch as input.
+In the batch the customer is fetched from SAP by Material Number or from Salesforce by its Product Code.
+Afterwards every such product/material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
+
+Both polls are executed mutually exclusively using shared lock.
 
 # Considerations <a name="considerations"/>
 
@@ -62,16 +62,8 @@ There may be a few things that you need to know regarding SAP, in order for this
 
 ### As source of data
 
-In order for this Anypoint Template to work, there are a few things that needs to be done in SAP first.
-
-1. RFC destination
-RFC destination of type "TCP/IP Connection" pointing to program ID on gateway needs to be created. The destination uses Unicode communication type with target system.
-
-2. Program ID registration
-RFC SDK is used to register program ID on gateway. Same program ID name is used here as in the RFC destination.
-
-3. Partner port
-Partner port needs to be defined type of Idoc of SAP release 4.x as its version. As RFC destination same RFC destination created earlier is used.
+SAP backend system is used as source of data. SAP Connector is used to send and receive the data from the SAP backend. 
+The connector can either use RFC calls of BAPI functions and/or IDoc messages for data exchange and needs to be properly customized as per chapter: [Properties to be configured](#propertiestobeconfigured)
 
 
 ### As destination of data
@@ -124,11 +116,12 @@ column='486'
 
 ### As destination of data
 
-There are no particular considerations for this Anypoint Template regarding Siebel as data destination.
+There are no particular considerations for this Anypoint Template regarding Salesforce as data destination.
 
 
 
-# Run it! <a name="runit"/>
+
+# Run it! <a name="runit"></a>
 Simple steps to get SFDC2SAP-product-bidirectional-sync running.
 
 
