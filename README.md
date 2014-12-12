@@ -29,15 +29,15 @@ Please review the terms of the license before downloading and using this templat
 This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
 Everytime there is a new product/material or a change in already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
 
-Requirements have been set not only to be used as examples, but also to establish a starting point to adapt your integration to your requirements.
+Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
 
-As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+As implemented, this Anypoint Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
 The batch job is divided in Input, Process and On Complete stages.
-The integration is triggered by poll to one of Salesforce Protucts or SAP Materials. New or modified products/materials are passed to the batch as input.
-In the batch the customer is fetched from SAP by Material Number or from Salesforce by its Product Code.
+The integration is triggered by polling one of Salesforce Products or SAP Materials. New or modified products/materials are passed to the batch process as input.
+In the batch, the material/product is fetched from SAP by Material Number or from Salesforce by its Product Code.
 Afterwards every such product/material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
 
-Both polls are executed mutually exclusively using shared lock.
+Both polls are executed mutually exclusively using a shared lock.
 
 # Considerations <a name="considerations"/>
 
@@ -121,7 +121,7 @@ There are no particular considerations for this Anypoint Template regarding Sale
 
 
 
-# Run it! <a name="runit"></a>
+# Run it! <a name="runit"/>
 Simple steps to get SFDC2SAP-product-bidirectional-sync running.
 
 
