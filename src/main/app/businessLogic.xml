@@ -2,10 +2,12 @@
 
 <mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
-	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sap="http://www.mulesoft.org/schema/mule/sap"
-	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" 
+	xmlns:sap="http://www.mulesoft.org/schema/mule/sap"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
+	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -33,6 +35,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 			<I_MAT_ID>#[payload['ProductCode']]</I_MAT_ID>
 	</import>
 </ZMULE_MATERIAL_GETLIST>]]></sap:definition>
+
 
                         </sap:outbound-endpoint>
                         <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
@@ -81,6 +84,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 
 
 ]]></sap:definition>
+
 
                 </sap:outbound-endpoint>
 				<logger message="Upsert SAP Response: #[payload]" level="INFO" 
