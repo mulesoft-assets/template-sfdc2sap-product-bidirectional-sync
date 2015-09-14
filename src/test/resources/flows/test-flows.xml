@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" 
+<mule version="EE-3.7.1"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" 
+	xmlns:sap="http://www.mulesoft.org/schema/mule/sap" 
 	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
-	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" 
 	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" 
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.2"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     
-    <sfdc:config name="Test_Salesforce" username="${test.sfdc.username}" password="${test.sfdc.password}" securityToken="${test.sfdc.securityToken}" url="${test.sfdc.url}" doc:name="Test Salesforce">
+    <sfdc:config name="Test_Salesforce" username="${test.sfdc.username}" password="${test.sfdc.password}" securityToken="${test.sfdc.securityToken}" url="${test.sfdc.url}" doc:name="Test Salesforce" disableSessionInvalidation="true">
         <sfdc:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </sfdc:config>
     
@@ -27,19 +28,19 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
 		validateConnections="true"
 		doc:name="Test SAP" />
     
-    <flow name="createProductsInSalesforceFlow" doc:name="createProductsInSalesforceFlow">
+    <flow name="createProductsInSalesforceFlow" >
         <sfdc:create config-ref="Test_Salesforce" type="Product2" doc:name="Create Product in Salesforce">
             <sfdc:objects ref="#[payload]"/>
         </sfdc:create>
         <logger level="INFO" message="Create Test Products in Salesforce result: #[payload]" doc:name="Logger"/>
     </flow>
-    <flow name="createProductsInSapFlow" doc:name="createProductsInSapFlow">
-        <collection-splitter doc:name="Collection Splitter"/>
-        <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Upsert Material to SAP">
-            <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
+    <flow name="createProductsInSapFlow" >
+        <foreach doc:name="For Each">
+            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Upsert Material to SAP">
+                <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
 	<import>
 			<HEADDATA>
-				<MATERIAL>#[payload['ProductCode']]</MATERIAL>
+				<MATERIAL>#[payload.ProductCode]</MATERIAL>
 				<MATL_TYPE>${sap.material.type}</MATL_TYPE>
 				<IND_SECTOR>${sap.material.industrySector}</IND_SECTOR>
 				<BASIC_VIEW>X</BASIC_VIEW>
@@ -58,7 +59,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
 			   <row id="0">
 				   <LANGU>E</LANGU>
 				    <LANGU_ISO>EN</LANGU_ISO>
-				    <MATL_DESC>#[payload['Name']]</MATL_DESC>
+				    <MATL_DESC>#[payload.Name]</MATL_DESC>
   				</row>
 		  </table>
 		</MATERIALDESCRIPTION>
@@ -68,33 +69,45 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
 
 
 ]]></sap:definition>
+            </sap:outbound-endpoint>
+        </foreach>
 
-        </sap:outbound-endpoint>
-        <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
         <logger level="INFO" message="Create Test Products in SAP result: #[payload]" doc:name="Logger"/>
     </flow>
-    <flow name="queryProductFromSalesforceFlow" doc:name="queryProductFromSalesforceFlow">
-        <sfdc:query-single config-ref="Test_Salesforce" query="SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload['ProductCode']]'" doc:name="Query Product from Salesforce"/>
+    <flow name="queryProductFromSalesforceFlow" >
+        <sfdc:query-single config-ref="Test_Salesforce" query="SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '#[payload.ProductCode]'" doc:name="Query Product from Salesforce"/>
         <logger level="INFO" message="Retrieve Products from Salesforce result: #[payload]" doc:name="Logger"/>
     </flow>
-    <flow name="queryProductFromSapFlow" doc:name="queryProductFromSapFlow">
-        <enricher source="#[payload.isEmpty() ? NullPayload.getInstance() : payload[0]]" target="#[payload]" doc:name="Store result in record var 'materialInSap'">
+    <flow name="queryProductFromSapFlow" >
+        <enricher source="#[payload.isEmpty() ? null : payload[0]]" target="#[payload]" doc:name="set payload with the received object">
             <processor-chain doc:name="Processor Chain">
                 <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Material from SAP">
                     <sap:definition><![CDATA[<ZMULE_MATERIAL_GETLIST type="function">
 	<import>
-			<I_MAT_ID>#[payload['ProductCode']]</I_MAT_ID>
+			<I_MAT_ID>#[payload.ProductCode]</I_MAT_ID>
 	</import>
 </ZMULE_MATERIAL_GETLIST>
 ]]></sap:definition>
 
                 </sap:outbound-endpoint>
-                <data-mapper:transform config-ref="ZMULE_MATERIAL_GETLIST_to_Salesforce_Materials" doc:name="ZMULE_MATERIAL_GETLIST to Salesforce Materials"/>
+                <dw:transform-message doc:name="ZMULE_MATERIAL_GETLIST to Material">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA.*row map {
+	Name              : $.MAKTX,
+	LastModifiedDate  : $.LAST_MODIF_DATE,
+	CreatedById       : $.ERNAM,
+	LastModifiedById  : $.AENAM,
+	ProductCode       : $.MATNR
+} when payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA is :object otherwise []]]></dw:set-payload>
+                </dw:transform-message>
+
             </processor-chain>
         </enricher>
         <logger level="INFO" message="Retrieve Products from SAP result: #[payload]" doc:name="Logger"/>
     </flow>
-    <flow name="deleteProductsFromSapFlow" doc:name="deleteProductsFromSapFlow">
+    <flow name="deleteProductsFromSapFlow" >
         <foreach doc:name="For Each">
             <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="Test_SAP" type="function" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Delete Material from SAP" functionName="BAPI_MATERIAL_SAVEDATA">
                 <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
@@ -116,7 +129,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
             </sap:outbound-endpoint>
         </foreach>
     </flow>
-    <flow name="deleteProductsFromSalesforceFlow" doc:name="deleteProductsFromSalesforceFlow">
+    <flow name="deleteProductsFromSalesforceFlow" >
         <sfdc:delete config-ref="Test_Salesforce" doc:name="Delete Product from Salesforce"/>
         <logger message="Remove Products from Salesforce result: #[payload]" level="INFO" doc:name="Logger"/>
     </flow>
