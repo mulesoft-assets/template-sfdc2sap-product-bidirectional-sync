@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 	<placeholders>
-		<placeholder id="template_name">SFDC2SAP-product-bidirectional-sync</placeholder>
+		<placeholder id="template_name">Salesforce and SAP Product Bidirectional Sync</placeholder>
 	</placeholders>
 	<sections>
 		<section id="use_case">
@@ -72,9 +72,9 @@ For instance if 10 records are fetched from origin instance, then 12 API calls w
 <![CDATA[
 **Common configuration**
 
-+ polling.frequency `10000`
-+ polling.start.delay `5000`
-+ watermark.default.expression `2014-06-26T12:30:00.000Z`
++ poll.frequencyMillis `10000`
++ poll.start.delayMillis `5000`
++ watermark.default.expression `2015-09-11T12:30:00.000Z`
 + page.size `100`
 
 **SalesForce Connector configuration**

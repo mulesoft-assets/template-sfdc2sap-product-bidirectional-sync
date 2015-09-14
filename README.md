@@ -1,5 +1,5 @@
 
-# Anypoint Template: SFDC2SAP-product-bidirectional-sync
+# Anypoint Template: Salesforce and SAP Product Bidirectional Sync
 
 + [License Agreement](#licenseagreement)
 + [Use Case](#usecase)
@@ -126,7 +126,7 @@ There are no particular considerations for this Anypoint Template regarding Sale
 
 
 # Run it! <a name="runit"/>
-Simple steps to get SFDC2SAP-product-bidirectional-sync running.
+Simple steps to get Salesforce and SAP Product Bidirectional Sync running.
 
 
 ## Running on premise <a name="runonopremise"/>
@@ -181,9 +181,9 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 ### Application configuration
 **Common configuration**
 
-+ polling.frequency `10000`
-+ polling.start.delay `5000`
-+ watermark.default.expression `2014-06-26T12:30:00.000Z`
++ poll.frequencyMillis `10000`
++ poll.start.delayMillis `5000`
++ watermark.default.expression `2015-09-11T12:30:00.000Z`
 + page.size `100`
 
 **SalesForce Connector configuration**
