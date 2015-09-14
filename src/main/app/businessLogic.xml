@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 		<batch:threading-profile poolExhaustedAction="WAIT" />
 		<batch:process-records>
 			<batch:step name="foreachProductInSalesforceGetMaterialInSapStep">
-				<enricher target="#[recordVars.materialInSap]" doc:name="Store result in record var 'materialInSap'" source="#[payload.isEmpty() ? null : payload[0]]">
+				<enricher target="#[payload.BaseUnitOfMeasureX]" doc:name="Enrich payload with BaseUnitOfMeasureX" source="#[payload.isEmpty() ? 'X' : '']">
 					<processor-chain doc:name="Processor Chain">
                         <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Material from SAP">
                             <sap:definition><![CDATA[<ZMULE_MATERIAL_GETLIST type="function">
@@ -49,19 +49,7 @@ payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA.*row map {
 				</enricher>
 			</batch:step>
 			<batch:step name="foreachProductInSalesforceUpsertMaterialInSapStep" accept-expression="recordVars.materialInSap == null || (org.mule.templates.util.DateUtils.isAfter(payload.LastModifiedDate, recordVars.materialInSap.LastModifiedDate, -(${timeOffsetBetweenSapAndSalesforce})) )">
-                <dw:transform-message doc:name="Prepare Material for Upsert">
-                    <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
----
-payload ++ 
-{
-	MaterialNumber      : payload.ProductCode when (recordVars.materialInSap == null) 
-                                              otherwise recordVars.materialInSap.ProductCode,                          
-	BaseUnitOfMeasureX  : 'X'                 when (recordVars.materialInSap == null) 
-                                              otherwise ''               
-} 
-]]></dw:set-payload>
-                </dw:transform-message>
+
 
 				<sap:outbound-endpoint exchange-pattern="request-response"
 					connector-ref="SAP" type="function" functionName="BAPI_MATERIAL_SAVEDATA"
@@ -70,7 +58,7 @@ payload ++
                     <sap:definition><![CDATA[<BAPI_MATERIAL_SAVEDATA type="function">
 	<import>
 			<HEADDATA>
-				<MATERIAL>#[payload.MaterialNumber]</MATERIAL>
+				<MATERIAL>#[payload.ProductCode]</MATERIAL>
 				<MATL_TYPE>${sap.material.type}</MATL_TYPE>
 				<IND_SECTOR>${sap.material.industrySector}</IND_SECTOR>
 				<BASIC_VIEW>X</BASIC_VIEW>
