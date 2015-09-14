@@ -55,10 +55,8 @@ payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA.*row map {
 ---
 payload ++ 
 {
-	MaterialNumber      : payload.ProductCode when (recordVars.materialInSap == null) 
-                                              otherwise recordVars.materialInSap.ProductCode,                          
-	BaseUnitOfMeasureX  : 'X'                 when (recordVars.materialInSap == null) 
-                                              otherwise ''               
+	MaterialNumber      : payload.ProductCode,                          
+	BaseUnitOfMeasureX  : 'X' when (recordVars.materialInSap == null) otherwise ''               
 } 
 ]]></dw:set-payload>
                 </dw:transform-message>
