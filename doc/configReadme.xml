@@ -76,6 +76,7 @@ For instance if 10 records are fetched from origin instance, then 12 API calls w
 + poll.start.delayMillis `5000`
 + watermark.default.expression `2015-09-11T12:30:00.000Z`
 + page.size `100`
++ timeOffsetBetweenSapAndSalesforce `-4000`
 
 **SalesForce Connector configuration**
 

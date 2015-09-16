@@ -185,6 +185,7 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 + poll.start.delayMillis `5000`
 + watermark.default.expression `2015-09-11T12:30:00.000Z`
 + page.size `100`
++ timeOffsetBetweenSapAndSalesforce `-4000`
 
 **SalesForce Connector configuration**
 

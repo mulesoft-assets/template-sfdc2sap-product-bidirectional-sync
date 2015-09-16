@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
 
 	<!-- This is the main configuration files, you should place here all the 
-		Connectors configuration an declarations -->
+		Connectors configuration and declarations -->
 
 	<context:property-placeholder
 		location="common.properties, mule.${mule.env}.properties" />
