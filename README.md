@@ -195,6 +195,8 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 + sfdc.url `https://test.salesforce.com/services/Soap/u/32.0`
 + sfdc.integration.user.id `005n0000000T3QpAAK`
 
+	**Note:** To find out the correct *sfdc.integration.user.id* value, please, refer to example project **Salesforce Data Retrieval** in [Anypoint Exchange](http://www.mulesoft.org/documentation/display/current/Anypoint+Exchange).
+
 **SAP Connector configuration**
 
 + sap.jco.ashost `your.sap.address.com`
