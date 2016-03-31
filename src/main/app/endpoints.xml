@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" version="EE-3.7.1"
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" 
 	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" 
 	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" 
 	xmlns:sap="http://www.mulesoft.org/schema/mule/sap" 
@@ -37,28 +37,28 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             <watermark variable="sapLastQueryDate" default-expression="${watermark.default.expression}" selector="MAX" selector-expression="#[payload.LastModifiedDate]"/>
             <processor-chain doc:name="Processor Chain">
                 <expression-component doc:name="Acquire Lock"><![CDATA[app.registry['PollSynchronizer'].lock();]]></expression-component>
-                <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMULE_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Materials from SAP">
-                    <sap:definition><![CDATA[<ZMULE_MATERIAL_GETLIST type="function">
+                <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMMFM_MATERIAL_GETLIST" xmlVersion="2" outputXml="true" responseTimeout="10000" doc:name="Query Materials from SAP">
+                    <sap:definition><![CDATA[<ZMMFM_MATERIAL_GETLIST type="function">
 	<import>
-			<I_FROM_DATE>#[flowVars.sapLastQueryDate]</I_FROM_DATE>
+			<IV_FROM_DATE>#[flowVars.sapLastQueryDate]</IV_FROM_DATE>
 	</import>
-</ZMULE_MATERIAL_GETLIST>
+</ZMMFM_MATERIAL_GETLIST>
 
 ]]></sap:definition>
 
 
                 </sap:outbound-endpoint>
-                <dw:transform-message doc:name="ZMULE_MATERIAL_GETLIST to Product2">
+                <dw:transform-message doc:name="ZMMFM_MATERIAL_GETLIST to Product2">
                     <dw:set-payload><![CDATA[%dw 1.0
 %output application/java
 ---
-payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA.*row map {
+payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map {
 	Name              : $.MAKTX,
 	LastModifiedDate  : $.LAST_MODIF_DATE,
 	CreatedById       : $.ERNAM,
 	LastModifiedById  : $.AENAM,
 	ProductCode       : $.MATNR
-} when payload.ZMULE_MATERIAL_GETLIST.tables.T_MARA is :object otherwise []]]></dw:set-payload>
+} when payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA is :object otherwise []]]></dw:set-payload>
                 </dw:transform-message>
 
             </processor-chain>
