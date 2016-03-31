@@ -55,7 +55,7 @@ public class BidirectionalProductSyncTestIT extends AbstractTemplatesTestCase {
 	public static void beforeTestClass() {
 		// Set default water-mark expression to current time
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(DateTimeZone.UTC);
-		System.setProperty("watermark.default.expression", formatter.print(System.currentTimeMillis() - 60000)); // one minute ago
+		System.setProperty("watermark.default.expression", formatter.print(System.currentTimeMillis() - 60000 * 60 * 6));
 	}
 
 	@Before
