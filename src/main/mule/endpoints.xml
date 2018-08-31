@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+    xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
+    <flow name="schedulerFlow" doc:id="aff4106d-d2f6-4366-940a-a380dcb1cf73">
+        <scheduler doc:name="Scheduler" doc:id="58b7c776-fbee-4753-9bea-f6cc3e037efd">
+            <scheduling-strategy>
+                <fixed-frequency frequency="${scheduler.frequency}" startDelay="${scheduler.startDelay}" />
+            </scheduling-strategy>
+        </scheduler>
+
+        <os:retrieve key="syncState" doc:name="Retrieve sync state" objectStore="SchedulerStatus" target="syncState">
+            <os:default-value><![CDATA[fromSFDC]]></os:default-value>
+        </os:retrieve>
+
+        <choice doc:name="SyncState?" doc:id="b4703d83-780b-4e2d-bf5d-51b1566d66e2">
+            <when expression="#[(vars.syncState != 'running' and vars.syncState == 'fromSFDC') or vars.syncState == null]">
+                <logger level="INFO" doc:name="running from SFDC" doc:id="c9cd1c27-5978-4ad8-b87f-99da49944447" message="running from SFDC" />
+                <os:store key="syncState" doc:name="Set sync state to running" doc:id="340ac5e0-764f-4164-aeaa-14e616987553"
+                    objectStore="SchedulerStatus">
+                    <os:value><![CDATA[running]]></os:value>
+                </os:store>
+                <flow-ref doc:name="queryFlowSFDC" doc:id="b0c87553-d459-4f12-940c-0f8f19892266" name="queryFlowSFDC" />
+                <flow-ref doc:name="fromInstanceSFDCtoInstanceSAP" doc:id="43633fd4-8ec3-4899-8a82-93b88f816122" name="fromInstanceSFDCtoInstanceSAP" />
+            </when>
+            <when expression="#[vars.syncState != 'running' and vars.syncState == 'fromSAP']">
+                <logger level="INFO" doc:name="running from SAP" doc:id="840599bf-2442-45d6-b66d-fbe11593bd60" message="running from SAP" />
+                <os:store key="syncState" doc:name="Set sync state to running" doc:id="5059b820-0895-4454-9e50-e686d0f07758"
+                    objectStore="SchedulerStatus">
+                    <os:value><![CDATA[running]]></os:value>
+                </os:store>
+                <flow-ref doc:name="queryFlowSAP" doc:id="121efa5b-33a7-4c76-aa72-3112507c4c0b" name="queryFlowSAP" />
+                <flow-ref doc:name="fromInstanceSAPtoInstanceSFDC" doc:id="d8baf0c3-ace8-4d57-80c5-f7ea614d3946" name="fromInstanceSAPtoInstanceSFDC" />
+            </when>
+            <otherwise>
+                <logger level="INFO" doc:name="Batch running" doc:id="bf955eec-4baf-4836-b7fd-7d77ff5ebcb1" message="Batch running" />
+            </otherwise>
+        </choice>
+        <error-handler>
+            <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate"
+                doc:id="488b507d-e26c-4c56-8759-8bb4f6645d71" type="ANY">
+                <flow-ref doc:name="errorHandlingFlow" doc:id="afdaf73c-0137-4d60-84f6-5c41234771a3" name="errorHandlingFlow" />
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="queryFlowSFDC">
+        <os:retrieve key="watermark" objectStore="watermarkStoreSFDC" target="lastQueryDateSFDC" doc:name="Retrieve lastQueryDateSFDC">
+            <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
+        </os:retrieve>
+        <salesforce:query doc:name="Quey Products from Salesforce" doc:id="58797024-38bc-407d-be02-2f96cd1f37fb" config-ref="Salesforce_Config">
+			<ee:repeatable-file-store-iterable />
+			<salesforce:salesforce-query >SELECT Id, Description, Name, LastModifiedById, LastModifiedDate, ProductCode FROM Product2 WHERE LastModifiedDate &gt; :lastQueryDateSFDC AND ProductCode &lt;&gt; null AND (LastModifiedById &lt;&gt; '${sfdc.integration.user.id}') ORDER BY LastModifiedDate ASC LIMIT 200</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output applicaton/java
+---
+{
+	"lastQueryDateSFDC" : vars.lastQueryDateSFDC
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<logger level="INFO" doc:name="Log product with filtering criteria from Salesforce" doc:id="6b2f8f74-396e-4cd7-baa4-535444b0d502" message="#[output application/json --- payload]"/>
+        <os:store key="watermark" failOnNullValue="false" objectStore="watermarkStoreSFDC" doc:name="Store lastQueryDateSFDC">
+            <os:value><![CDATA[#[max(payload map $.LastModifiedDate)]]]></os:value>
+        </os:store>
+    </flow>
+    <flow name="queryFlowSAP">
+        <os:retrieve key="watermark" objectStore="watermarkStoreSAP" target="lastQueryDateSAP" doc:name="Retrieve lastQueryDateSAP">
+            <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
+        </os:retrieve>
+        <ee:transform doc:name="Set XML input" doc:id="dc23bcd5-2af0-40e3-bfe6-54158418d528" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+  "ZMMFM_MATERIAL_GETLIST": {
+    "import": {
+      "IV_FROM_DATE": vars.lastQueryDateSAP
+    }
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<sap:execute-synchronous-remote-function-call key="ZMMFM_MATERIAL_GETLIST" doc:name="Query Materials from SAP" doc:id="14ed6a91-3bf5-4e3e-bf10-c1e8bee89fed" config-ref="SAP_Outbound">
+			<ee:repeatable-file-store-stream />
+		</sap:execute-synchronous-remote-function-call>
+		<ee:transform doc:name="ZMMFM_MATERIAL_GETLIST to Product2" doc:id="3571dd37-373b-4201-a4ed-8c350ab8f4a9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+if (payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA != null)
+payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map {
+	Name              : $.MAKTX,
+	LastModifiedDate  : $.LAST_MODIF_DATE,
+	CreatedById       : $.ERNAM,
+	LastModifiedById  : $.AENAM,
+	ProductCode       : $.MATNR
+} else []]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log product with filtering criteria from SAP" doc:id="bdaa005e-a184-4fdd-aeb9-787fd3762a29" message="#[output application/json --- payload]"/>
+        <os:store key="watermark" failOnNullValue="false" objectStore="watermarkStoreSAP" doc:name="Store lastQueryDateSAP">
+            <os:value><![CDATA[#[max(payload map $.LastModifiedDate)]]]></os:value>
+        </os:store>
+    </flow>
+</mule>
+
+        

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<configuration>
+	<placeholders>
+		<placeholder id="template_name">Salesforce and SAP Product Bidirectional Sync</placeholder>
+	</placeholders>
+	<sections>
+		<section id="use_case">
+This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
+Every time there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
+
+Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
+
+As implemented, this Anypoint Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+The batch job is divided in *Process* and *On Complete* stages.
+The integration is triggered by polling one of Salesforce Products or SAP Materials. New or modified products/materials are passed to the batch process as input.
+In the batch, the material/product is fetched from SAP by Material Number or from Salesforce by its Product Code.
+Afterwards every such product/material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
+		</section>
+		<section id="running_on_studio">
+<![CDATA[
+In order to make this Anypoint Template run on Mule Studio there are a few extra steps that need to be made.
+Please check this Documentation Page:
+
++ [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
+]]>
+		</section>
+		<section id="considerations">
+<![CDATA[
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
+**Failing to do so could lead to unexpected behavior of the template.**
+
+Before continuing with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
+with SAP and Anypoint Studio.
+
+## Disclaimer
+
+This Anypoint template uses a few private Maven dependencies from Mulesoft in order to work. If you intend to run this template with Maven support, you need to add three extra dependencies for SAP to the pom.xml file.
+]]>
+		</section>
+		<section id="sap_dst">
+<![CDATA[
+Template uses custom BAPI function. To create them please use following steps:
+
+1. Create structure `ZMMST_ENH_MARA` in transaction `SE11` as per its definition in file `structure_ZMMST_ENH_MARA.abap`
+2. Create table type `ZMMTTY_ENH_MARA` in transaction `SE11` as per its definition in file `table_type_ZMMTTY_ENH_MARA.abap`
+3. Create message class called `ZMC_ENGTEMPLATES` in transaction `SE91` as per definition in file `message_class_ZMC_ENGTEMPLATES.abap`
+4. Create function module `ZMMFM_MATERIAL_GETLIST` in transaction `SE37` as per source file `ZMMFM_MATERIAL_GETLIST.abap`
+
+Referenced files are in [src/main/resources] directory.
+]]>
+		</section>
+		<section id="api_calls">
+<![CDATA[
+Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The Anypoint Template calls to the API can be calculated using the formula:
+
+***1 + X + X / ${page.size}***
+
+Being ***X*** the number of Products/Materials to be synchronized on each run.
+
+The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that these calls are executed repeatedly every polling cycle.
+
+For instance if 10 records are fetched from origin instance, then 12 API calls will be made (1 + 10 + 1).
+]]>
+		</section>
+		<section id="application_configuration">
+<![CDATA[
+**Common configuration**
+
++ scheduler.frequency `10000`
++ scheduler.startDelay `5000`
++ watermark.default.expression `2015-09-11T12:30:00.000Z`
++ page.size `100`
+
+**SalesForce Connector configuration**
+
++ sfdc.username `bob.dylan@sfdc`
++ sfdc.password `DylanPassword123`
++ sfdc.securityToken `avsfwCUl7apQs56Xq2AKi3X`
++ sfdc.integration.user.id `005n0000000T3QpAAK`
+
+    **Note:** To find out the correct *sfdc.integration.user.id* value, please, refer to example project **Salesforce Data Retrieval** in [Anypoint Exchange](http://www.mulesoft.org/documentation/display/current/Anypoint+Exchange).
+
+**SAP Connector configuration**
+
++ sap.jco.ashost `your.sap.address.com`
++ sap.jco.user `SAP_USER`
++ sap.jco.passwd `SAP_PASS`
++ sap.jco.sysnr `14`
++ sap.jco.client `800`
++ sap.jco.lang `EN`
+
+**SAP Material properties configuration**
+
++ sap.material.type `ZHTI`
++ sap.material.industrySector `T`
++ sap.material.baseUnitOfMeasurement `KGS`
+]]>
+		</section>
+	</sections>
+</configuration>

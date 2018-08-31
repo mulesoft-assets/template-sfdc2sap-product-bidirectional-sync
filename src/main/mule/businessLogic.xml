@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+      xmlns:sap="http://www.mulesoft.org/schema/mule/sap"
+      xmlns:os="http://www.mulesoft.org/schema/mule/os"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+
+<flow name="fromInstanceSFDCtoInstanceSAP" doc:id="8759532e-79b7-4789-990c-dc8e162bfd67" >
+    <batch:job jobName="fromInstanceSFDCtoInstanceSAPBatch" doc:id="204892ae-0d97-4326-beae-310c8d52b7a6">
+        <batch:process-records>
+            <batch:step name="forEachProductInSalesforceGetProductFromSAPStep" doc:id="89713774-362a-4e92-9bdc-41e31802bf38">
+					<ee:transform doc:name="Save payload to sfdcProduct variable" doc:id="bd6dc895-a2ae-4b4e-9045-d26d23c58edc" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="sfdcProduct" ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<ee:transform doc:name="Set XML input" doc:id="07bfae3e-fed5-4cd9-9e6d-5b51c5d0e3a3" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+  "ZMMFM_MATERIAL_GETLIST": {
+    "import": {
+      "IV_MAT_ID": vars.sfdcProduct.ProductCode
+    }
+  }
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<sap:execute-synchronous-remote-function-call key="ZMMFM_MATERIAL_GETLIST" doc:name="Query Material from SAP" doc:id="901e0c07-2d47-4eb7-8c0c-98e8a1704a62" config-ref="SAP_Outbound">
+						<ee:repeatable-file-store-stream />
+					</sap:execute-synchronous-remote-function-call>
+					<ee:transform doc:name="ZMMFM_MATERIAL_GETLIST to Material" doc:id="f5cef301-6c2f-4dd0-bcba-78cd4bf5560f">
+						<ee:message>
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+if(payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA != null)
+payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map {
+	Name              : $.MAKTX,
+	LastModifiedDate  : $.LAST_MODIF_DATE,
+	CreatedById       : $.ERNAM,
+	LastModifiedById  : $.AENAM,
+	ProductCode       : $.MATNR
+}[0] else null]]></ee:set-payload>
+						</ee:message>
+						<ee:variables >
+						</ee:variables>
+					</ee:transform>
+					<ee:transform doc:name="Prepare Material for Upsert" doc:id="17008e07-96e4-4201-a7f6-e1fdd9b311f0">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+if (payload == null) vars.sfdcProduct ++ {
+	"MaterialNumber" : vars.sfdcProduct.ProductCode,
+	"BaseUnitOfMeasureX" : 'X'
+} else 
+vars.sfdcProduct ++ {
+	"MaterialNumber" : payload.ProductCode,
+	"BaseUnitOfMeasureX" : '',
+	"LastModifiedDateSAP" : payload.LastModifiedDate
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+            </batch:step>
+            <batch:step name="forEachProductToBeUpsertedInSAP" doc:id="78a74ab4-9b91-416d-985a-acda2ac377eb" acceptExpression="#[payload.LastModifiedDateSAP == null  or (payload.LastModifiedDateSAP &lt; payload.LastModifiedDate)]">
+					<ee:transform doc:name="Set XML input" doc:id="89ecea6b-cba0-4997-9ed4-dbcb62e2d7d8" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+	"BAPI_MATERIAL_SAVEDATA": {
+		"import": {
+			"HEADDATA": {
+				"MATERIAL": payload.ProductCode,
+				"MATL_TYPE": p('sap.material.type'),
+				"IND_SECTOR": p('sap.material.industrySector'),
+				"BASIC_VIEW": "X"
+			},
+			"CLIENTDATA": {
+				"BASE_UOM": p('sap.material.baseUnitOfMeasurement')
+			},
+			"CLIENTDATAX": {
+				"BASE_UOM": payload.BaseUnitOfMeasureX
+			}
+		},
+		"tables": {
+			"MATERIALDESCRIPTION": {
+				"row": {
+					"LANGU": "EN",
+					"LANGU_ISO": "EN",
+					"MATL_DESC": payload.Name
+				}
+			}
+		}
+	}
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+                    <sap:execute-synchronous-remote-function-call key="BAPI_MATERIAL_SAVEDATA" doc:name="Upsert Material" doc:id="bd20342e-dfcc-46bc-bc26-4410d2b011f7" config-ref="SAP_Outbound"/>
+					<logger level="INFO" doc:name="Log Response" doc:id="b7c4fd17-f0ee-4a49-a27b-a1259f363556" message="Upsert SAP Response: #[payload]"/>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete >
+            <os:store key="syncState" doc:name="Set sync state to fromSAP" doc:id="f08de372-2fb9-4aef-80ca-f6da2241fc75" objectStore="SchedulerStatus">
+                <os:value><![CDATA[fromSAP]]></os:value>
+            </os:store>
+        </batch:on-complete>
+
+    </batch:job>
+</flow>
+<flow name="fromInstanceSAPtoInstanceSFDC" doc:id="8759532e-79b7-4789-990c-dc8e162bfd67" >
+    <batch:job jobName="fromInstanceSAPtoInstanceSFDCBatch" doc:id="204892ae-0d97-4326-beae-310c8d52b7a6">
+        <batch:process-records>
+            <batch:step name="forEachProductInSAPGetProductFromSalesforceStep" doc:id="89713774-362a-4e92-9bdc-41e31802bf38">
+                <salesforce:query-single doc:name="Query Product from Salesforce" doc:id="0984a842-944f-4c50-91fa-f76d55d992f9" config-ref="Salesforce_Config" target="sfdcProduct">
+						<salesforce:salesforce-query >SELECT Id, LastModifiedDate, Name, ProductCode FROM Product2 WHERE ProductCode = ':productCode'</salesforce:salesforce-query>
+						<salesforce:parameters ><![CDATA[#[output applicaton/java
+---
+{
+	"productCode" : payload.ProductCode
+}]]]></salesforce:parameters>
+					</salesforce:query-single>
+					<ee:transform doc:name="Set Id and LastModifiedDate to payload" doc:id="1394c78f-3a36-4802-ba00-ab7bbc334ec1">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload ++ {
+	"Id" : vars.sfdcProduct.Id,
+	"LastModifiedDateSFDC" : vars.sfdcProduct.LastModifiedDate
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+            </batch:step>
+            <batch:step name="forEachProductToSAPeUpsertedInSalesforce" doc:id="78a74ab4-9b91-416d-985a-acda2ac377eb" acceptExpression="#[payload.Id == null  or (payload.LastModifiedDateSFDC &lt; payload.LastModifiedDate)]">
+                <batch:aggregator doc:name="Batch Aggregator" doc:id="1ad86a98-643e-494a-a90a-32daab0b03cc" size="${page.size}">
+                    <ee:transform doc:name="Prepare Product for Upsert" doc:id="f7c71c57-04d0-4fe4-8796-4365cd07b0fd" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map {
+	(Id           : $.Id) if $.Id != null,
+	ProductCode   : $.ProductCode,
+	Name          : $.Name
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+						<salesforce:upsert-bulk type="Product2" doc:name="Upsert products" doc:id="4812f24a-114e-414a-8cf7-7ac6996fd5b4" config-ref="Salesforce_Config" externalIdFieldName="Id"/>
+						<logger level="INFO" doc:name="Log Response" doc:id="303c06e8-430e-46ca-93b8-30e63f0c18fe" message="Upsert Salesforce Response: #[output application/json --- payload]"/>
+                </batch:aggregator>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete >
+            <os:store key="syncState" doc:name="Set sync state to fromSFDC" doc:id="f08de372-2fb9-4aef-80ca-f6da2241fc75" objectStore="SchedulerStatus">
+                <os:value><![CDATA[fromSFDC]]></os:value>
+            </os:store>
+        </batch:on-complete>
+
+    </batch:job>
+</flow>
+</mule>
+
+        
