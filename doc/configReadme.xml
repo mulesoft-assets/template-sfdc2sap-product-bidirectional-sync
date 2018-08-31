@@ -6,7 +6,7 @@
 	<sections>
 		<section id="use_case">
 This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
-Everytime there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
+Every time there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
 
 Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
 
@@ -18,7 +18,7 @@ Afterwards every such product/material is sent to destination instance - to Sale
 		</section>
 		<section id="running_on_studio">
 <![CDATA[
-In order to make this Anypoint Template run on Mule Studio there are a few extra steps that needs to be made.
+In order to make this Anypoint Template run on Mule Studio there are a few extra steps that need to be made.
 Please check this Documentation Page:
 
 + [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
@@ -29,7 +29,7 @@ Please check this Documentation Page:
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
 **Failing to do so could lead to unexpected behavior of the template.**
 
-Before continue with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
+Before continuing with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
 with SAP and Anypoint Studio.
 
 ## Disclaimer
@@ -57,7 +57,7 @@ Salesforce imposes limits on the number of API Calls that can be made. Therefore
 
 Being ***X*** the number of Products/Materials to be synchronized on each run.
 
-The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that this calls are executed repeatedly every polling cycle.
+The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that these calls are executed repeatedly every polling cycle.
 
 For instance if 10 records are fetched from origin instance, then 12 API calls will be made (1 + 10 + 1).
 ]]>

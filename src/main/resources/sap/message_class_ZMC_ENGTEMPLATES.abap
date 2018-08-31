@@ -6,7 +6,7 @@ Status.......... 10.03.16
 --------------------------------------------------------------------------------
 EN 100 Deletion flag set for customer: &
 EN 101 Deletion flag NOT set for customer: &
-EN 102 No customer was found for given critera: & & & &
+EN 102 No customer was found for given criteria: & & & &
 EN 103 Customer(s) found: &
-EN 200 No material was found for given critera: & & & &
+EN 200 No material was found for given criteria: & & & &
 EN 201 Material(s) found: &

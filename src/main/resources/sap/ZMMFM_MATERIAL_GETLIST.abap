@@ -102,7 +102,7 @@ FUNCTION zmmfm_material_getlist.
         IMPORTING
           output = iv_mat_id.
     ENDIF.
-*- Get time zone of SAP server, later used for convertion to UTC
+*- Get time zone of SAP server, later used for conversion to UTC
     CALL FUNCTION 'GET_SYSTEM_TIMEZONE' ##FM_SUBRC_OK
       IMPORTING
         timezone            = lv_systz

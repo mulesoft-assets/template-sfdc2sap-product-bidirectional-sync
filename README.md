@@ -27,7 +27,7 @@ Please review the terms of the license before downloading and using this templat
 
 # Use Case <a name="usecase"/>
 This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
-Everytime there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
+Every time there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
 
 Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
 
@@ -39,10 +39,10 @@ Afterwards every such product/material is sent to destination instance - to Sale
 
 # Considerations <a name="considerations"/>
 
-To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly.
 **Failing to do so could lead to unexpected behavior of the template.**
 
-Before continue with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
+Before continuing with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work
 with SAP and Anypoint Studio.
 
 ## Disclaimer
@@ -56,7 +56,7 @@ There may be a few things that you need to know regarding SAP, in order for this
 
 ### As source of data
 
-SAP backend system is used as source of data. SAP Connector is used to send and receive the data from the SAP backend. 
+SAP backend system is used as source of data. SAP Connector is used to send and receive the data from the SAP backend.
 The connector can either use RFC calls of BAPI functions and/or IDoc messages for data exchange and needs to be properly customized as per chapter: [Properties to be configured](#propertiestobeconfigured)
 
 
@@ -136,7 +136,7 @@ First thing to know if you are a newcomer to Mule is where to get the tools.
 
 
 ### Importing an Anypoint Template into Studio
-Mule Studio offers several ways to import a project into the workspace, for instance: 
+Mule Studio offers several ways to import a project into the workspace, for instance:
 
 + Anypoint Studio Project from File System
 + Packaged mule application (.jar)
@@ -149,16 +149,16 @@ Once you have imported you Anypoint Template into Anypoint Studio you need to fo
 
 + Locate the properties file `mule.dev.properties`, in src/main/resources
 + Complete all the properties required as per the examples in the section [Properties to be configured](#propertiestobeconfigured)
-+ Once that is done, right click on you Anypoint Template project folder 
++ Once that is done, right click on you Anypoint Template project folder
 + Hover you mouse over `"Run as"`
 + Click on  `"Mule Application"`
-In order to make this Anypoint Template run on Mule Studio there are a few extra steps that needs to be made.
+In order to make this Anypoint Template run on Mule Studio there are a few extra steps that need to be made.
 Please check this Documentation Page:
 
 + [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
 
 ### Running on Mule ESB stand alone <a name="runonmuleesbstandalone"/>
-Complete all properties in one of the property files, for example in [mule.prod.properties] (../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`. 
+Complete all properties in one of the property files, for example in [mule.prod.properties] (../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`.
 
 
 ## Running on CloudHub <a name="runoncloudhub"/>
@@ -210,7 +210,7 @@ Salesforce imposes limits on the number of API Calls that can be made. Therefore
 
 Being ***X*** the number of Products/Materials to be synchronized on each run.
 
-The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that this calls are executed repeatedly every polling cycle.
+The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that these calls are executed repeatedly every polling cycle.
 
 For instance if 10 records are fetched from origin instance, then 12 API calls will be made (1 + 10 + 1).
 
@@ -245,8 +245,5 @@ This is file is conformed by a Flow containing the endpoints for triggering the 
 
 
 ## errorHandling.xml<a name="errorhandlingxml"/>
-This is the right place to handle how your integration will react depending on the different exceptions. 
+This is the right place to handle how your integration will react depending on the different exceptions.
 This file holds a [Error Handling](http://www.mulesoft.org/documentation/display/current/Error+Handling) that is referenced by the main flow in the business logic.
-
-
-
