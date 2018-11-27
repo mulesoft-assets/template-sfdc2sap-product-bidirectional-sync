@@ -9,12 +9,12 @@
 This template is subject to the conditions of the <a href="https://s3.amazonaws.com/templates-examples/AnypointTemplateLicense.pdf">MuleSoft License Agreement</a>. Review the terms of the license before downloading and using this template. You can use this template for free with the Mule Enterprise Edition, CloudHub, or as a trial in Anypoint Studio. 
 # Use Case
 <!-- Use Case (start) -->
-This Anypoint Template should serve as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
+This Anypoint template serves as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
 Every time there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
 
 Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
 
-As implemented, this Anypoint Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+As implemented, this template leverages the Mule batch module.
 The batch job is divided in *Process* and *On Complete* stages.
 The integration is triggered by polling one of Salesforce Products or SAP Materials. New or modified products/materials are passed to the batch process as input.
 In the batch, the material/product is fetched from SAP by Material Number or from Salesforce by its Product Code.
@@ -27,10 +27,10 @@ Afterwards every such product/material is sent to destination instance - to Sale
 <!-- Default Considerations (end) -->
 
 <!-- Considerations (start) -->
-To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made in order for all to run smoothly. 
+To make this template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made for the template to run smoothly. 
 **Failing to do so could lead to unexpected behavior of the template.**
 
-Before continuing with the use of this Anypoint Template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
+Before continuing with the use of this template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
 with SAP and Anypoint Studio.
 
 ## Disclaimer
@@ -138,7 +138,7 @@ After you import your template into Anypoint Studio, follow these steps to run i
 + Inside the dialog, select Environment and set the variable `mule.env` to the value `dev`.
 + Click `Run`.
 <!-- Running on Studio (start) -->
-In order to make this Anypoint Template run on Mule Studio there are a few extra steps that need to be made.
+In order to make this template run on Mule Studio there are a few extra steps that need to be made.
 Please check this Documentation Page:
 
 + [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
@@ -164,14 +164,14 @@ In Studio, right click your project name in Package Explorer and select Anypoint
 To use this template, configure properties such as credentials, configurations, etc.) in the properties file or in CloudHub from Runtime Manager > Manage Application > Properties. The sections that follow list example values.
 ### Application Configuration
 <!-- Application Configuration (start) -->
-**Common configuration**
+**Common Configuration**
 
 + scheduler.frequency `10000`
 + scheduler.startDelay `5000`
 + watermark.default.expression `2015-09-11T12:30:00.000Z`
 + page.size `100`
 
-**SalesForce Connector configuration**
+**SalesForce Connector Configuration**
 
 + sfdc.username `bob.dylan@sfdc`
 + sfdc.password `DylanPassword123`
@@ -180,7 +180,7 @@ To use this template, configure properties such as credentials, configurations, 
 
     **Note:** To find out the correct *sfdc.integration.user.id* value, please, refer to example project **Salesforce Data Retrieval** in [Anypoint Exchange](http://www.mulesoft.org/documentation/display/current/Anypoint+Exchange).
 
-**SAP Connector configuration**
+**SAP Connector Configuration**
 
 + sap.jco.ashost `your.sap.address.com`
 + sap.jco.user `SAP_USER`
@@ -189,7 +189,7 @@ To use this template, configure properties such as credentials, configurations, 
 + sap.jco.client `800`
 + sap.jco.lang `EN`
 
-**SAP Material properties configuration**
+**SAP Material properties Configuration**
 
 + sap.material.type `ZHTI`
 + sap.material.industrySector `T`
@@ -198,7 +198,7 @@ To use this template, configure properties such as credentials, configurations, 
 
 # API Calls
 <!-- API Calls (start) -->
-Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The Anypoint Template calls to the API can be calculated using the formula:
+Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The template calls to the API can be calculated using the formula:
 
 ***1 + X + X / ${page.size}***
 
