@@ -2,6 +2,9 @@
 # Anypoint Template: Salesforce and SAP Product Bidirectional Sync	
 
 <!-- Header (start) -->
+Bidirectionally synchronize product data between Salesforce and SAP. Configure this template quickly by modifying the fields to be synchronized, how they map, and criteria on when to trigger the synchronization. This template is initiated via an iDocs message from SAP and polling on SFDC side (which can be easily switched to receive outbound messages to reduce API calls). This template leverages watermarking functionality to ensure that only the most recent items are synchronized and uses batch to effectively process many records at a time, if you choose not to process all the records one at a time.
+
+![4cd462df-6257-4768-a58b-87def1fc25d9-image.png](https://exchange2-file-upload-service-kprod.s3.us-east-1.amazonaws.com:443/4cd462df-6257-4768-a58b-87def1fc25d9-image.png)
 
 <!-- Header (end) -->
 
@@ -9,16 +12,13 @@
 This template is subject to the conditions of the <a href="https://s3.amazonaws.com/templates-examples/AnypointTemplateLicense.pdf">MuleSoft License Agreement</a>. Review the terms of the license before downloading and using this template. You can use this template for free with the Mule Enterprise Edition, CloudHub, or as a trial in Anypoint Studio. 
 # Use Case
 <!-- Use Case (start) -->
-This Anypoint template serves as a foundation for setting an online bi-directional synchronization of products/materials between Salesforce and SAP.
-Every time there is a new product/material or a change in an already existing one in Salesforce or SAP instance, the template will fetch it and send it as IDoc to SAP or Salesforce respectively to update product/material there.
+This template provides an online bidirectional synchronization of products or materials between Salesforce and SAP. Every time there is a new product or material or a change in an existing one in Salesforce or a SAP instance, the template fetches it and sends it as an IDoc to SAP or Salesforce respectively to update product and material there.
 
 Requirements have been set not only to be used as examples, but also to establish a starting point to adapt the integration to your requirements.
 
-As implemented, this template leverages the Mule batch module.
-The batch job is divided in *Process* and *On Complete* stages.
-The integration is triggered by polling one of Salesforce Products or SAP Materials. New or modified products/materials are passed to the batch process as input.
-In the batch, the material/product is fetched from SAP by Material Number or from Salesforce by its Product Code.
-Afterwards every such product/material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
+This template leverages the Mule batch module. The batch job is divided in *Process* and *On Complete* stages.
+The integration is triggered by polling one of Salesforce products or SAP materials. New or modified products and materials are passed to the batch process as input. In the batch, the material and product is fetched from SAP by material number or from Salesforce by its product code.
+Afterwards every such product and material is sent to destination instance - to Salesforce with Upsert or to SAP in form of iDoc XML where it is asynchronously updated or created.
 <!-- Use Case (end) -->
 
 # Considerations
@@ -27,15 +27,13 @@ Afterwards every such product/material is sent to destination instance - to Sale
 <!-- Default Considerations (end) -->
 
 <!-- Considerations (start) -->
-To make this template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made for the template to run smoothly. 
-**Failing to do so could lead to unexpected behavior of the template.**
+To make this template run, there are certain preconditions that must be considered. All of them deal with the preparations in SAP, that must be made for the template to run smoothly. Failing to do so can lead to unexpected behavior of the template.
 
-Before continuing with the use of this template, you may want to check out this [Documentation Page](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP), that will teach you how to work 
-with SAP and Anypoint Studio.
+Before continuing with the use of this template, see [Install the SAP Connector in Studio](https://docs.mulesoft.com/connectors/sap/sap-connector#install-the-sap-connector-in-studio).
 
 ## Disclaimer
 
-This Anypoint template uses a few private Maven dependencies from Mulesoft in order to work. If you intend to run this template with Maven support, you need to add three extra dependencies for SAP to the pom.xml file.
+This template uses a few private Maven dependencies from MuleSoft to work. If you intend to run this template with Maven support, you need to add three extra dependencies for SAP to the pom.xml file.
 <!-- Considerations (end) -->
 
 
@@ -57,7 +55,7 @@ Template uses custom BAPI function. To create them please use following steps:
 3. Create message class called `ZMC_ENGTEMPLATES` in transaction `SE91` as per definition in file `message_class_ZMC_ENGTEMPLATES.abap`
 4. Create function module `ZMMFM_MATERIAL_GETLIST` in transaction `SE37` as per source file `ZMMFM_MATERIAL_GETLIST.abap`
 
-Referenced files are in [src/main/resources] directory.
+Referenced files are in src/main/resources directory.
 ## Salesforce Considerations
 
 Here's what you need to know about Salesforce to get this template to work:
@@ -76,9 +74,10 @@ exceptionMessage='Account.Phone, Account.Rating, Account.RecordTypeId,
 Account.ShippingCity
 ^
 ERROR at Row:1:Column:486
-No such column 'RecordTypeId' on entity 'Account'. If you are attempting to 
-use a custom field, be sure to append the '__c' after the custom field name. 
-Reference your WSDL or the describe call for the appropriate names.'
+No such column 'RecordTypeId' on entity 'Account'. If you are 
+attempting to use a custom field, be sure to append the '__c' 
+after the custom field name. Reference your WSDL or the describe 
+call for the appropriate names.'
 ]
 row='1'
 column='486'
@@ -89,14 +88,6 @@ column='486'
 ### As a Data Destination
 
 There are no considerations with using Salesforce as a data destination.
-
-
-
-
-
-
-
-
 
 # Run it!
 Simple steps to get this template running.
@@ -130,18 +121,15 @@ In Studio, click the Exchange X icon in the upper left of the taskbar, log in wi
 ### Running on Studio
 After you import your template into Anypoint Studio, follow these steps to run it:
 
-+ Locate the properties file `mule.dev.properties`, in src/main/resources.
-+ Complete all the properties required as per the examples in the "Properties to Configure" section.
-+ Right click the template project folder.
-+ Hover your mouse over `Run as`.
-+ Click `Mule Application (configure)`.
-+ Inside the dialog, select Environment and set the variable `mule.env` to the value `dev`.
-+ Click `Run`.
+1. Locate the properties file `mule.dev.properties`, in src/main/resources.
+2. Complete all the properties required per the examples in the "Properties to Configure" section.
+3. Right click the template project folder.
+4. Hover your mouse over `Run as`.
+5. Click `Mule Application (configure)`.
+6. Inside the dialog, select Environment and set the variable `mule.env` to the value `dev`.
+7. Click `Run`.
 <!-- Running on Studio (start) -->
-In order to make this template run on Mule Studio there are a few extra steps that need to be made.
-Please check this Documentation Page:
-
-+ [Enabling Your Studio Project for SAP](http://www.mulesoft.org/documentation/display/current/SAP+Connector#SAPConnector-EnablingYourStudioProjectforSAP)
+To make this template run in Studio see [Install the SAP Connector in Studio](https://docs.mulesoft.com/connectors/sap/sap-connector#install-the-sap-connector-in-studio).
 <!-- Running on Studio (end) -->
 
 ### Running on Mule Standalone
@@ -168,7 +156,7 @@ To use this template, configure properties such as credentials, configurations, 
 
 + scheduler.frequency `10000`
 + scheduler.startDelay `5000`
-+ watermark.default.expression `2015-09-11T12:30:00.000Z`
++ watermark.default.expression `2019-09-11T12:30:00.000Z`
 + page.size `100`
 
 **SalesForce Connector Configuration**
@@ -178,7 +166,7 @@ To use this template, configure properties such as credentials, configurations, 
 + sfdc.securityToken `avsfwCUl7apQs56Xq2AKi3X`
 + sfdc.integration.user.id `005n0000000T3QpAAK`
 
-    **Note:** To find out the correct *sfdc.integration.user.id* value, please, refer to example project **Salesforce Data Retrieval** in [Anypoint Exchange](http://www.mulesoft.org/documentation/display/current/Anypoint+Exchange).
+    **Note:** To find out the correct *sfdc.integration.user.id* value, refer to the example project [Salesforce Data Retrieval in Anypoint Exchange](https://www.mulesoft.com/exchange/org.mule.examples/salesforce-data-retrieval/).
 
 **SAP Connector Configuration**
 
@@ -189,7 +177,7 @@ To use this template, configure properties such as credentials, configurations, 
 + sap.jco.client `800`
 + sap.jco.lang `EN`
 
-**SAP Material properties Configuration**
+**SAP Material Properties Configuration**
 
 + sap.material.type `ZHTI`
 + sap.material.industrySector `T`
@@ -198,15 +186,12 @@ To use this template, configure properties such as credentials, configurations, 
 
 # API Calls
 <!-- API Calls (start) -->
-Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. The template calls to the API can be calculated using the formula:
+Salesforce imposes limits on the number of API calls that can be made. Therefore calculating this amount may be an important factor to consider. The template calls to the API can be calculated using the formula:
 
-***1 + X + X / ${page.size}***
+* ***1 + X + X / ${page.size}*** -- Where ***X*** is the number of products and materials to synchronize on each run.
+* Divide by ***${page.size}*** because, by default, products and materials are gathered in groups of ${page.size} for each Upsert API call in the commit step. Also consider that these calls are executed repeatedly every polling cycle.
 
-Being ***X*** the number of Products/Materials to be synchronized on each run.
-
-The division by ***${page.size}*** is because, by default, Products/Materials are gathered in groups of ${page.size} for each Upsert API Call in the commit step. Also consider that these calls are executed repeatedly every polling cycle.
-
-For instance if 10 records are fetched from origin instance, then 12 API calls will be made (1 + 10 + 1).
+For instance if 10 records are fetched from an origin instance, then 12 API calls are made (1 + 10 + 1).
 <!-- API Calls (end) -->
 
 # Customize It!
@@ -221,7 +206,8 @@ This brief guide provides a high level understanding of how this template is bui
 
 ## config.xml
 <!-- Default Config XML (start) -->
-This file provides the configuration for connectors and configuration properties. Only change this file to make core changes to the connector processing logic. Otherwise, all parameters that can be modified should instead be in a properties file, which is the recommended place to make changes.<!-- Default Config XML (end) -->
+This file provides the configuration for connectors and configuration properties. Only change this file to make core changes to the connector processing logic. Otherwise, all parameters that can be modified should instead be in a properties file, which is the recommended place to make changes.
+<!-- Default Config XML (end) -->
 
 <!-- Config XML (start) -->
 
@@ -229,7 +215,8 @@ This file provides the configuration for connectors and configuration properties
 
 ## businessLogic.xml
 <!-- Default Business Logic XML (start) -->
-The business logic XML file creates or updates objects in the destination system for a represented use case. You can customize and extend the logic of this template in this XML file to more meet your needs.<!-- Default Business Logic XML (end) -->
+The business logic XML file creates or updates objects in the destination system for a represented use case. You can customize and extend the logic of this template in this XML file to more meet your needs.
+<!-- Default Business Logic XML (end) -->
 
 <!-- Business Logic XML (start) -->
 
@@ -237,7 +224,8 @@ The business logic XML file creates or updates objects in the destination system
 
 ## endpoints.xml
 <!-- Default Endpoints XML (start) -->
-This file contains the endpoints for triggering the template and for retrieving the objects that meet the defined criteria in a query. You can execute a batch job process with the query results.<!-- Default Endpoints XML (end) -->
+This file contains the endpoints for triggering the template and for retrieving the objects that meet the defined criteria in a query. You can execute a batch job process with the query results.
+<!-- Default Endpoints XML (end) -->
 
 <!-- Endpoints XML (start) -->
 
@@ -245,7 +233,8 @@ This file contains the endpoints for triggering the template and for retrieving 
 
 ## errorHandling.xml
 <!-- Default Error Handling XML (start) -->
-This file handles how your integration reacts depending on the different exceptions. This file provides error handling that is referenced by the main flow in the business logic.<!-- Default Error Handling XML (end) -->
+This file handles how your integration reacts depending on the different exceptions. This file provides error handling that is referenced by the main flow in the business logic.
+<!-- Default Error Handling XML (end) -->
 
 <!-- Error Handling XML (start) -->
 
