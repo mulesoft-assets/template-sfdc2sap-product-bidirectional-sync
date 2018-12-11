@@ -4,7 +4,7 @@
 <!-- Header (start) -->
 Bidirectionally synchronize product data between Salesforce and SAP. Configure this template quickly by modifying the fields to be synchronized, how they map, and criteria on when to trigger the synchronization. This template is initiated via an iDocs message from SAP and polling on SFDC side (which can be easily switched to receive outbound messages to reduce API calls). This template leverages watermarking functionality to ensure that only the most recent items are synchronized and uses batch to effectively process many records at a time, if you choose not to process all the records one at a time.
 
-![4cd462df-6257-4768-a58b-87def1fc25d9-image.png](https://exchange2-file-upload-service-kprod.s3.us-east-1.amazonaws.com:443/4cd462df-6257-4768-a58b-87def1fc25d9-image.png)
+![2c50a1f5-c6fe-46f2-ac5b-9f86ae164d80-image.png](https://exchange2-file-upload-service-kprod.s3.us-east-1.amazonaws.com:443/2c50a1f5-c6fe-46f2-ac5b-9f86ae164d80-image.png)
 
 <!-- Header (end) -->
 
