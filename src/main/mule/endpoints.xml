@@ -51,19 +51,17 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     </flow>
     <flow name="queryFlowSFDC">
         <os:retrieve key="watermark" objectStore="watermarkStoreSFDC" target="lastQueryDateSFDC" doc:name="Retrieve lastQueryDateSFDC">
-            <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
+             <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
         </os:retrieve>
-        <salesforce:query doc:name="Quey Products from Salesforce" doc:id="58797024-38bc-407d-be02-2f96cd1f37fb" config-ref="Salesforce_Config">
-			<ee:repeatable-file-store-iterable />
-			<salesforce:salesforce-query >SELECT Id, Description, Name, LastModifiedById, LastModifiedDate, ProductCode FROM Product2 WHERE LastModifiedDate &gt; :lastQueryDateSFDC AND ProductCode &lt;&gt; null AND (LastModifiedById &lt;&gt; '${sfdc.integration.user.id}') ORDER BY LastModifiedDate ASC LIMIT 200</salesforce:salesforce-query>
-			<salesforce:parameters ><![CDATA[#[output applicaton/java
+		<salesforce:query doc:name="Query Products from Salesforce" doc:id="58797024-38bc-407d-be02-2f96cd1f37fb" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT Id, Description, Name, LastModifiedById, LastModifiedDate, ProductCode FROM Product2 WHERE LastModifiedDate &gt; :lastQueryDateSFDC AND ProductCode &lt;&gt; null AND LastModifiedById &lt;&gt; '${sfdc.integration.user.id}'ORDER BY LastModifiedDate ASC LIMIT 200</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
 ---
 {
 	"lastQueryDateSFDC" : vars.lastQueryDateSFDC
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<logger level="INFO" doc:name="Log product with filtering criteria from Salesforce" doc:id="6b2f8f74-396e-4cd7-baa4-535444b0d502" message="#[output application/json --- payload]"/>
-        <os:store key="watermark" failOnNullValue="false" objectStore="watermarkStoreSFDC" doc:name="Store lastQueryDateSFDC">
+		<os:store key="watermark" failOnNullValue="false" objectStore="watermarkStoreSFDC" doc:name="Store lastQueryDateSFDC">
             <os:value><![CDATA[#[max(payload map $.LastModifiedDate)]]]></os:value>
         </os:store>
     </flow>
@@ -103,7 +101,6 @@ payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map {
 } else []]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log product with filtering criteria from SAP" doc:id="bdaa005e-a184-4fdd-aeb9-787fd3762a29" message="#[output application/json --- payload]"/>
         <os:store key="watermark" failOnNullValue="false" objectStore="watermarkStoreSAP" doc:name="Store lastQueryDateSAP">
             <os:value><![CDATA[#[max(payload map $.LastModifiedDate)]]]></os:value>
         </os:store>
