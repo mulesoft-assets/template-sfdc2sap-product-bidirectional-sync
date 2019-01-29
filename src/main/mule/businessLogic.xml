@@ -15,8 +15,18 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
     <batch:job jobName="fromInstanceSFDCtoInstanceSAPBatch" doc:id="204892ae-0d97-4326-beae-310c8d52b7a6">
         <batch:process-records>
             <batch:step name="forEachProductInSalesforceGetProductFromSAPStep" doc:id="89713774-362a-4e92-9bdc-41e31802bf38">
-					<ee:transform doc:name="Save payload to sfdcProduct variable" doc:id="bd6dc895-a2ae-4b4e-9045-d26d23c58edc" >
+					<ee:transform doc:name="Set sfdcProduct and set XML input" doc:id="bd6dc895-a2ae-4b4e-9045-d26d23c58edc" >
 						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+  "ZMMFM_MATERIAL_GETLIST": {
+    "import": {
+      "IV_MAT_ID": payload.ProductCode
+    }
+  }
+}]]></ee:set-payload>
 						</ee:message>
 						<ee:variables >
 							<ee:set-variable variableName="sfdcProduct" ><![CDATA[%dw 2.0
@@ -25,46 +35,23 @@ output application/java
 payload]]></ee:set-variable>
 						</ee:variables>
 					</ee:transform>
-					<ee:transform doc:name="Set XML input" doc:id="07bfae3e-fed5-4cd9-9e6d-5b51c5d0e3a3" >
-						<ee:message >
-							<ee:set-payload ><![CDATA[%dw 2.0
-output application/xml
----
-{
-  "ZMMFM_MATERIAL_GETLIST": {
-    "import": {
-      "IV_MAT_ID": vars.sfdcProduct.ProductCode
-    }
-  }
-}]]></ee:set-payload>
-						</ee:message>
-					</ee:transform>
 					<sap:execute-synchronous-remote-function-call key="ZMMFM_MATERIAL_GETLIST" doc:name="Query Material from SAP" doc:id="901e0c07-2d47-4eb7-8c0c-98e8a1704a62" config-ref="SAP_Outbound">
 						<ee:repeatable-file-store-stream />
 					</sap:execute-synchronous-remote-function-call>
-					<ee:transform doc:name="ZMMFM_MATERIAL_GETLIST to Material" doc:id="f5cef301-6c2f-4dd0-bcba-78cd4bf5560f">
+					<ee:transform doc:name="Prepare Material for Upsert" doc:id="17008e07-96e4-4201-a7f6-e1fdd9b311f0">
 						<ee:message>
-							<ee:set-payload ><![CDATA[%dw 2.0
+							<ee:set-payload><![CDATA[%dw 2.0
 output application/java
----
-if(payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA != null)
+var querydata = if(payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA != null)
 payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map {
 	Name              : $.MAKTX,
 	LastModifiedDate  : $.LAST_MODIF_DATE,
 	CreatedById       : $.ERNAM,
 	LastModifiedById  : $.AENAM,
 	ProductCode       : $.MATNR
-}[0] else null]]></ee:set-payload>
-						</ee:message>
-						<ee:variables >
-						</ee:variables>
-					</ee:transform>
-					<ee:transform doc:name="Prepare Material for Upsert" doc:id="17008e07-96e4-4201-a7f6-e1fdd9b311f0">
-						<ee:message>
-							<ee:set-payload><![CDATA[%dw 2.0
-output application/java
+}[0] else null
 ---
-if (payload == null) vars.sfdcProduct ++ {
+if (querydata == null) vars.sfdcProduct ++ {
 	"MaterialNumber" : vars.sfdcProduct.ProductCode,
 	"BaseUnitOfMeasureX" : 'X'
 } else 
@@ -112,7 +99,6 @@ output application/xml
 						</ee:message>
 					</ee:transform>
                     <sap:execute-synchronous-remote-function-call key="BAPI_MATERIAL_SAVEDATA" doc:name="Upsert Material" doc:id="bd20342e-dfcc-46bc-bc26-4410d2b011f7" config-ref="SAP_Outbound"/>
-					<logger level="INFO" doc:name="Log Response" doc:id="b7c4fd17-f0ee-4a49-a27b-a1259f363556" message="Upsert SAP Response: #[payload]"/>
             </batch:step>
         </batch:process-records>
         <batch:on-complete >
@@ -162,7 +148,6 @@ payload map {
 							</ee:message>
 						</ee:transform>
 						<salesforce:upsert-bulk type="Product2" doc:name="Upsert products" doc:id="4812f24a-114e-414a-8cf7-7ac6996fd5b4" config-ref="Salesforce_Config" externalIdFieldName="Id"/>
-						<logger level="INFO" doc:name="Log Response" doc:id="303c06e8-430e-46ca-93b8-30e63f0c18fe" message="Upsert Salesforce Response: #[output application/json --- payload]"/>
                 </batch:aggregator>
             </batch:step>
         </batch:process-records>

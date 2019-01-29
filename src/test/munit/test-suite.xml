@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
+	<munit:config name="test-suite.xml" />
+
+	<configuration-properties doc:name="Configuration properties" doc:id="1485bc6a-3252-4aeb-bbec-60d92bc69dca" file="mule.test.properties" />
+	<munit:before-test name="test-suiteBefore_Test" description="Before tests actions" doc:id="eb1698c3-4653-4072-8f8f-482172b36114">
+		<ee:transform doc:name="Prepare testing data for Salesforce" doc:id="6ee9f458-8dea-4a1d-81b2-1b27098beba2">
+			<ee:message>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="product" ><![CDATA[%dw 2.0
+output application/java
+---
+[
+	{
+		Name: "TestMunitMaterial" ++ randomInt(100000),
+		ProductCode: p('sap.test.productCode')
+	}
+]]]></ee:set-variable>
+			</ee:variables>
+
+</ee:transform>
+		<salesforce:create doc:name="Create Products in Salesforce" doc:id="706d3835-0790-434b-b53d-e29660b7ceec" config-ref="Salesforce_Config" type="Product2">
+			<salesforce:records ><![CDATA[#[vars.product]]]></salesforce:records>
+		</salesforce:create>
+		<set-variable value="#[payload map ($.id)]" doc:name="Store IDs to variable sfdcIds" doc:id="37023214-2156-4bbd-9267-3e420a188e77" variableName="sfdcIds"/>
+	</munit:before-test>
+	<munit:test name="test-suite-SFDCtoSAPflowTest" description="Test" doc:id="4a62d2db-86c1-4be2-8dbc-d65bc4a69201">
+		<munit:execution>
+			<flow-ref doc:name="Query flow SFDC" doc:id="ac38da76-df0b-45a2-86bf-3557fd581466" name="queryFlowSFDC"/>
+			<ee:transform doc:name="Filter test records" doc:id="726c7097-7a9e-4566-ba17-f2e67e5342f6">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload filter ($.Name == vars.product[0].Name)]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Call business logic fromInstanceSFDCtoInstanceSAP" doc:id="64550340-2cb1-4923-b44d-9083447734a9" name="fromInstanceSFDCtoInstanceSAP"/>
+			<scripting:execute doc:name="Sleep for 60s until the processing is completed" doc:id="dded2a9d-0d6f-44c7-ae61-f517380f3f94" engine="groovy">
+				<scripting:code>sleep(60000)</scripting:code>
+			</scripting:execute>
+			<flow-ref doc:name="Query Record In Sap" doc:id="9959834b-bbab-483e-a504-64eeb48a0f5d" name="QueryRecordInSap" />
+
+</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that Product was updated" doc:id="46ffb4a0-7137-47d7-8c2d-b753b9a3fcd3" is="#[MunitTools::equalTo(vars.product[0].Name)]" expression="#[payload[0].Name]" message="Record should be updated "/>
+			<munit-tools:verify-call doc:name="Verify SAP Upsert call" doc:id="1e0cdb85-26e8-4b92-acc0-145df4bf35f4" processor="sap:execute-synchronous-remote-function-call" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:id" whereValue="bd20342e-dfcc-46bc-bc26-4410d2b011f7" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="test-suiteSAPtoSFDCFlowTest" description="MUnit Test" doc:id="406d5a23-e834-4fd9-a1f7-216ce89ec5ad" >
+		<munit:execution >
+			<flow-ref doc:name="Query flow SAP" doc:id="2bcf75b1-a971-498d-8e07-e042b92d38b3" name="queryFlowSAP"/>
+			<ee:transform doc:name="Filter test records" doc:id="76fd4bd1-976d-49b8-8bff-ecf7b9c28f53" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+var updateRecords = payload filter ($.ProductCode == vars.product[0].ProductCode)
+var createRecord = {
+		Name: "TestMunitMaterial" ++ randomInt(100000),
+		ProductCode: upper(uuid())[0 to 10]
+	} 
+---
+updateRecords + createRecord
+
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload]" doc:name="Save migrated records" doc:id="76dde252-a895-42b5-a803-eafa4906b324" variableName="migratedRecords" mimeType="application/java"/>
+			<flow-ref doc:name="Call business logic fromInstanceSAPtoInstanceSFDC" doc:id="02efd14b-fc8c-46ed-8c05-4d94b09e4143" name="fromInstanceSAPtoInstanceSFDC"/>
+			<scripting:execute engine="groovy" doc:name="Sleep for 30s until the processing is completed" doc:id="e706f3d5-78f2-4700-aaae-35cc74a82ed7" >
+				<scripting:code >sleep(30000)</scripting:code>
+			</scripting:execute>
+			<salesforce:query doc:name="Query products in SFDC" doc:id="bfc8b32c-475d-4735-88c5-16e0a1573669" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query>SELECT Id, ProductCode, Name FROM Product2 WHERE ProductCode IN (':code1', ':code2')</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"code1" : vars.migratedRecords[0].ProductCode,
+	"code2" : vars.migratedRecords[1].ProductCode
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			<ee:transform doc:name="filter records and save Ids" doc:id="bd0365f2-4bf9-40e3-87ed-f301598e0597">
+				<ee:message>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="sfdcIds"><![CDATA[%dw 2.0
+output application/java
+---
+payload map ($.Id)]]></ee:set-variable>
+					<ee:set-variable variableName="updatedRecord"><![CDATA[%dw 2.0
+output application/java
+---
+payload filter ($.Name == vars.migratedRecords[0].Name)]]></ee:set-variable>
+					<ee:set-variable variableName="createdRecord"><![CDATA[%dw 2.0
+output application/java
+---
+payload filter ($.Name == vars.migratedRecords[1].Name)]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that Product was created" doc:id="80f85146-3720-415f-a753-c2b9ed3aaadf" expression="#[vars.createdRecord[0].Name]" is="#[MunitTools::equalTo(vars.migratedRecords[1].Name)]" message="Product should be created"/>
+			<munit-tools:assert-that doc:name="Assert that Product was not updated" doc:id="75cdde4c-ae5b-414e-aa2e-06794c1072cc" is="#[MunitTools::isEmptyOrNullString()]" expression="#[vars.updatedRecord[0].Name]" message="Product shouldn't be updated" />
+			<munit-tools:verify-call doc:name="Verify SFDC Upsert call" doc:id="b79e185b-16a8-4543-a80a-1357eef6726a" processor="salesforce:upsert-bulk" times="1" />
+		</munit:validation>
+	</munit:test>
+	<munit:after-test name="test-suiteAfter_Test" description="After tests actions" doc:id="192617dd-3521-4e63-b53a-53a7b819cddc">
+		<salesforce:delete doc:name="Delete source Products from Salesforce" doc:id="1b871c98-2329-4e2c-b747-676cf2903de8" config-ref="Salesforce_Config">
+			<salesforce:delete-ids><![CDATA[#[vars.sfdcIds]]]></salesforce:delete-ids>
+		</salesforce:delete>
+	</munit:after-test>
+	<sub-flow name="QueryRecordInSap" doc:id="cffd70e0-2f9c-4a59-87d8-083875434c8c" >
+		<ee:transform doc:name="Set SAP input" doc:id="fbc4d4a0-1cde-4756-9b3a-5f8f7c00e342">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+{
+  "ZMMFM_MATERIAL_GETLIST": {
+    "import": {
+      "IV_MAT_ID": vars.product[0].ProductCode
+    }
+  }
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+		<sap:execute-synchronous-remote-function-call doc:name="Query Material from SAP" doc:id="249f5b82-75ac-4959-902b-dedbdd5aea3f" config-ref="SAP_Outbound" key="ZMMFM_MATERIAL_GETLIST" />
+		<ee:transform doc:name="Transform result from SAP" doc:id="8c7b9c72-19e1-43c7-bdb4-b25405f2b3c1">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+if (payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA != null) 
+(payload.ZMMFM_MATERIAL_GETLIST.tables.T_MARA.*row map
+{	
+	Name: $.MAKTX,
+	ProductCode: $.MATNR
+}) else null]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+	</sub-flow>
+
+</mule>
