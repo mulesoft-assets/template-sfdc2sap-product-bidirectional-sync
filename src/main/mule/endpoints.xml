@@ -51,7 +51,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     </flow>
     <flow name="queryFlowSFDC">
         <os:retrieve key="watermark" objectStore="watermarkStoreSFDC" target="lastQueryDateSFDC" doc:name="Retrieve lastQueryDateSFDC">
-             <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
+             <os:default-value ><![CDATA[#[read(p(‘watermark.default.expression’))]]]></os:default-value>
         </os:retrieve>
 		<salesforce:query doc:name="Query Products from Salesforce" doc:id="58797024-38bc-407d-be02-2f96cd1f37fb" config-ref="Salesforce_Config">
 			<salesforce:salesforce-query >SELECT Id, Description, Name, LastModifiedById, LastModifiedDate, ProductCode FROM Product2 WHERE LastModifiedDate &gt; :lastQueryDateSFDC AND ProductCode &lt;&gt; null AND LastModifiedById &lt;&gt; '${sfdc.integration.user.id}'ORDER BY LastModifiedDate ASC LIMIT 200</salesforce:salesforce-query>
@@ -67,7 +67,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     </flow>
     <flow name="queryFlowSAP">
         <os:retrieve key="watermark" objectStore="watermarkStoreSAP" target="lastQueryDateSAP" doc:name="Retrieve lastQueryDateSAP">
-            <os:default-value><![CDATA[${watermark.default.expression}]]></os:default-value>
+            <os:default-value ><![CDATA[#[read(p(‘watermark.default.expression’))]]]></os:default-value>
         </os:retrieve>
         <ee:transform doc:name="Set XML input" doc:id="dc23bcd5-2af0-40e3-bfe6-54158418d528" >
 			<ee:message >
