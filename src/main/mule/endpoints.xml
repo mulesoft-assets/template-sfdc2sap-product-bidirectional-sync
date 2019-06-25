@@ -67,7 +67,7 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     </flow>
     <flow name="queryFlowSAP">
         <os:retrieve key="watermark" objectStore="watermarkStoreSAP" target="lastQueryDateSAP" doc:name="Retrieve lastQueryDateSAP">
-            <os:default-value ><![CDATA[#[read(p(‘watermark.default.expression’))]]]></os:default-value>
+            <os:default-value ><![CDATA[#[read(p('watermark.default.expression'))]]]></os:default-value>
         </os:retrieve>
         <ee:transform doc:name="Set XML input" doc:id="dc23bcd5-2af0-40e3-bfe6-54158418d528" >
 			<ee:message >
